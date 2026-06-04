@@ -12,6 +12,7 @@ jobs:
     env:
       ANDROID_HOME: /usr/local/lib/android/sdk
       ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
 
     steps:
       - name: Checkout repository
@@ -22,18 +23,30 @@ jobs:
           sudo apt update
           sudo apt install -y python3-pip git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
 
+      - name: Prepare Android SDK path for Buildozer
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          ls -la $ANDROID_HOME
+          ls -la $ANDROID_HOME/cmdline-tools/latest/bin
+
+          sudo mkdir -p $ANDROID_HOME/tools/bin
+          sudo ln -sf $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager $ANDROID_HOME/tools/bin/sdkmanager
+          sudo ln -sf $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager $ANDROID_HOME/tools/bin/avdmanager
+
+          $ANDROID_HOME/tools/bin/sdkmanager --version
+
       - name: Accept Android SDK licenses
         run: |
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+          yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
 
       - name: Install Android SDK packages
         run: |
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+          $ANDROID_HOME/tools/bin/sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "cmdline-tools;latest"
+          yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
 
       - name: Install Python dependencies
         run: |
-          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip setuptools wheel
           python3 -m pip install buildozer cython
 
       - name: Build APK
