@@ -87,10 +87,10 @@ function makeSeed(){
  var members=[];var all=oldNames.concat(newNames);for(var i=0;i<all.length;i++)members.push({id:"m"+(i+1),name:all[i],type:newNames.indexOf(all[i])>=0?"new":"regular",required:newNames.indexOf(all[i])>=0?200:100,rank:"",active:true});
  var by={};members.forEach(function(m){by[m.name]=m.id});
  var rec=[],p={"Dommi Bestovski":234,"Mr Midnice":100,"Jules Kaylan":350,"Helene Anderton":250,"Model Model":200,"Akiko Ani":100,"Mark Ok":100,"Sanny Hobby":100,"Confirm Ok":100,"Iris Iris":100,"Nadia Nn":100,"Mr Palmy":99,"Thomas Ani":100,"Regency Soda":100,"Ja Kin":100,"Justin Ghv":100,"Maysa April":100,"Boss Sixnine":100,"Arngoenj Singchai":100,"Mint Sct":50,"Pe Pe":99,"Declan Rice":50,"Dmon Jony":117,"Almond Diwa":100,"Lion King":100,"Lil Ghost":100,"George Sloth":100,"Ah Wang":100,"Pill Deksoy":100,"Chi Code":50,"St Dees":0,"Celine Rindaman":0};
- var leave=["Roronoa Zoro","Nanon Nanon","Zidan Ss","Peter Davidson","Ku Bu","Mint Sct","Tne Mawin"];
+ var leave=["Roronoa Zoro","Nanon Nanon","Zidan Ss","Peter Davidson","Ku Bu","Mint Sct"];
  var zero=["Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Dom Mee","Adam Isus","Jimmy Elenio"];
- Object.keys(p).forEach(function(n){var req=newNames.indexOf(n)>=0?200:100;var a=p[n],st=leave.indexOf(n)>=0?"leave":a===0?"zero":a>=req?"complete":"partial";rec.push({id:"r"+rec.length,date:"2026-10-25",memberId:by[n],status:st,amount:a,required:req,note:n==="Tne Mawin"?"LINE: Marvin":""})});
- leave.forEach(function(n){if(p[n]===undefined)rec.push({id:"r"+rec.length,date:"2026-10-25",memberId:by[n],status:"leave",amount:0,required:100,note:n==="Tne Mawin"?"LINE: Marvin":""})});
+ Object.keys(p).forEach(function(n){var req=newNames.indexOf(n)>=0?200:100;var a=p[n],st=leave.indexOf(n)>=0?"leave":a===0?"zero":a>=req?"complete":"partial";rec.push({id:"r"+rec.length,date:"2026-10-25",memberId:by[n],status:st,amount:a,required:req,note:""})});
+ leave.forEach(function(n){if(p[n]===undefined)rec.push({id:"r"+rec.length,date:"2026-10-25",memberId:by[n],status:"leave",amount:0,required:100,note:""})});
  zero.forEach(function(n){rec.push({id:"r"+rec.length,date:"2026-10-25",memberId:by[n],status:"zero",amount:0,required:100,note:""})});
  var dis=[];["Model Model","Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Adam Isus"].forEach(function(n){dis.push({id:"d"+dis.length,memberId:by[n],member:n,date:"2026-10-24",offense:1,action:"ทัณฑ์บน 1 ใบ",reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา"})});
  ["Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Adam Isus"].forEach(function(n){dis.push({id:"d"+dis.length,memberId:by[n],member:n,date:"2026-10-25",offense:2,action:"ลดขั้น",reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา"})});
