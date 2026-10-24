@@ -3,150 +3,764 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0a0f1c">
+<meta name="theme-color" content="#090d16">
 <link rel="manifest" href="manifest.webmanifest">
 <title>Gang Manager</title>
 <style>
-:root{--bg:#070b13;--p:#0d1422;--p2:#121c2e;--line:#24314c;--txt:#f5f7fb;--mut:#94a3b8;--a:#7c5cff;--a2:#39d6ff;--ok:#2dd4a7;--warn:#ffbe45;--bad:#ff6177;--leave:#6aa9ff}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#1a1740 0,transparent 30%),var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai",sans-serif}
-button,input,select{font:inherit}button{cursor:pointer}.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
-aside{padding:20px 14px;border-right:1px solid var(--line);background:rgba(7,11,19,.92);position:sticky;top:0;height:100vh}
-.brand{display:flex;gap:10px;align-items:center;padding:8px 8px 22px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--a),var(--a2));display:grid;place-items:center;font-size:22px}.brand b{font-size:18px}.brand small{display:block;color:var(--mut);margin-top:2px}
-nav{display:grid;gap:8px}nav button{border:0;background:transparent;color:var(--mut);padding:13px;border-radius:13px;text-align:left}nav button.active,nav button:hover{background:var(--p2);color:var(--txt)}
-main{padding:26px;max-width:1500px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:18px}.top h1{margin:0;font-size:30px}.top p{color:var(--mut);margin:5px 0 0}
-input,select{background:#09101d;border:1px solid var(--line);color:var(--txt);border-radius:11px;padding:10px 12px;outline:none}.datebox{display:flex;gap:8px;align-items:center;background:var(--p);border:1px solid var(--line);padding:8px;border-radius:14px}
-.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:15px}.card{background:linear-gradient(180deg,var(--p2),var(--p));border:1px solid var(--line);border-radius:17px;padding:15px}.card .k{font-size:12px;color:var(--mut)}.card .v{font-size:28px;font-weight:800;margin-top:6px}
-.panel{background:rgba(13,20,34,.96);border:1px solid var(--line);border-radius:18px;overflow:hidden}.head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}.head h2{font-size:17px;margin:0}.tools{display:flex;gap:8px;flex-wrap:wrap}
-.btn{border:1px solid var(--line);background:var(--p2);color:var(--txt);border-radius:11px;padding:9px 12px;font-weight:700}.btn.primary{border:0;background:linear-gradient(135deg,var(--a),#5478ff)}.btn.red{color:#ff91a0;background:#351722}
-.grid{display:grid;grid-template-columns:1.4fr .7fr;gap:14px}.table{overflow:auto}table{width:100%;border-collapse:collapse;min-width:850px}th,td{padding:11px 12px;border-bottom:1px solid rgba(36,49,76,.8);text-align:left}th{font-size:12px;color:var(--mut);background:#0a111e;position:sticky;top:0}.name{font-weight:800}.sub{font-size:12px;color:var(--mut);margin-top:2px}
-.sbtns{display:flex;flex-wrap:wrap;gap:5px}.sbtns button{padding:6px 8px;border-radius:9px;border:1px solid var(--line);background:#09101d;color:var(--mut);font-size:12px;font-weight:800}.sbtns button.on.ok{color:var(--ok);border-color:#2a8b74}.sbtns button.on.part{color:var(--warn);border-color:#8f6b20}.sbtns button.on.leave{color:var(--leave);border-color:#35659b}.sbtns button.on.zero{color:var(--bad);border-color:#953a48}
-.pill{display:inline-block;padding:5px 8px;border-radius:999px;font-size:12px;font-weight:800;border:1px solid}.ok{color:var(--ok);border-color:#2a8b74}.part{color:var(--warn);border-color:#8f6b20}.leave{color:var(--leave);border-color:#35659b}.zero{color:var(--bad);border-color:#953a48}
-.summary{padding:14px}.group{margin-bottom:16px}.group h3{font-size:14px;margin:0 0 7px}.row{display:flex;justify-content:space-between;gap:8px;background:#09101d;border-radius:10px;padding:8px 10px;margin:5px 0}
-.page{display:none}.page.active{display:block}.members{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px}.mcard{background:#09101d;border:1px solid var(--line);border-radius:15px;padding:13px}.mcard h3{margin:0 0 4px}.right{display:flex;gap:7px;justify-content:flex-end;margin-top:12px}
-.hist{padding:0 14px 14px}.event{display:grid;grid-template-columns:110px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.event .d{font-size:12px;color:var(--mut)}.empty{padding:32px;text-align:center;color:var(--mut)}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;place-items:center;padding:18px;z-index:10}.modal.open{display:grid}.box{width:min(560px,100%);background:var(--p);border:1px solid var(--line);border-radius:18px;overflow:hidden}.mb{padding:16px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:grid;gap:5px}.field label{font-size:12px;color:var(--mut)}.full{grid-column:1/-1}
-.toast{position:fixed;right:18px;bottom:18px;background:#172238;border:1px solid var(--line);padding:11px 13px;border-radius:11px;opacity:0;transform:translateY(80px);transition:.2s}.toast.show{opacity:1;transform:none}
-@media(max-width:900px){.app{grid-template-columns:76px 1fr}.brand .bt,nav span{display:none}nav button{text-align:center}.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.members{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:650px){.app{display:block}aside{position:fixed;z-index:5;left:0;right:0;bottom:0;top:auto;height:70px;padding:8px;border-right:0;border-top:1px solid var(--line)}.brand{display:none}nav{grid-template-columns:repeat(4,1fr)}nav button:nth-child(5){display:none}main{padding:16px 12px 88px}.top{display:block}.datebox{margin-top:10px;width:max-content}.cards{grid-template-columns:repeat(2,1fr)}.cards .card:last-child{grid-column:1/-1}.members{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.full{grid-column:auto}.head{align-items:flex-start;flex-direction:column}.tools{width:100%}.tools input{width:100%}.event{grid-template-columns:85px 1fr}.event>:last-child{grid-column:2}}
+:root{
+  --bg:#070b12;--card:#0e1522;--soft:#131d2d;--line:#22304a;
+  --txt:#f6f8fb;--mut:#91a0b8;--vio:#765cff;--blue:#64aaff;
+  --green:#28d3a2;--yellow:#ffbd45;--red:#ff6478
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai",sans-serif}
+body{min-height:100vh;background:radial-gradient(circle at 90% 0,rgba(118,92,255,.14),transparent 26%),var(--bg)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+input,select{width:100%;border:1px solid var(--line);background:#09101a;color:var(--txt);border-radius:12px;padding:11px 12px;outline:none}
+input:focus,select:focus{border-color:#6175ff}
+.app{max-width:980px;margin:auto;padding:18px 14px 104px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--vio),#41d3ff);font-size:22px}
+.brand h1{font-size:21px;margin:0}
+.muted{color:var(--mut);font-size:12px}
+.btn,.icon{border:1px solid var(--line);background:var(--soft);color:var(--txt);border-radius:12px;padding:10px 12px;font-weight:800}
+.btn.primary{border:0;background:linear-gradient(135deg,var(--vio),#4e7cff)}
+.btn.danger{color:#ff9aaa;background:#281117;border-color:#64303a}
+.icon{width:42px;height:42px;padding:0;font-size:18px}
+.page{display:none}.page.active{display:block}
+.dateRow{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;margin-bottom:10px}
+.dateRow .icon{width:100%}
+.searchRow{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:10px}
+.stat b{display:block;font-size:22px}
+.stat span{font-size:11px;color:var(--mut)}
+.filters{display:flex;gap:7px;overflow:auto;padding:1px 0 10px}
+.chip{white-space:nowrap;border:1px solid var(--line);background:#0a111c;color:var(--mut);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:800}
+.chip.on{background:var(--soft);color:white;border-color:#53617c}
+.list{display:grid;gap:9px}
+.member{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:13px}
+.mtop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.mname{font-size:16px;font-weight:850}
+.meta{font-size:11px;color:var(--mut);margin-top:3px}
+.badge{border:1px solid var(--line);background:transparent;color:var(--mut);border-radius:999px;padding:5px 8px;font-size:11px;font-weight:850}
+.badge.w1{color:var(--yellow);border-color:#745b28}
+.badge.w2,.badge.w3{color:var(--red);border-color:#77343d}
+.controls{display:grid;grid-template-columns:88px 1fr;gap:8px;margin-top:11px}
+.amount{text-align:center;font-weight:800}
+.status{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.status button{border:1px solid var(--line);background:#09101a;color:var(--mut);border-radius:10px;padding:9px 3px;font-size:11px;font-weight:850}
+.status button.on.complete{color:var(--green);border-color:#287966;background:#0c211d}
+.status button.on.partial{color:var(--yellow);border-color:#82652a;background:#251e0e}
+.status button.on.leave{color:var(--blue);border-color:#386596;background:#0d1a2a}
+.status button.on.zero{color:var(--red);border-color:#7e3741;background:#281016}
+.savebar{position:fixed;left:0;right:0;bottom:64px;z-index:7;padding:10px 14px;background:linear-gradient(180deg,transparent,var(--bg) 30%)}
+.saveinner{max-width:980px;margin:auto;display:grid;grid-template-columns:auto auto 1fr;gap:7px}
+.saveinner .btn{padding:12px 10px}
+.saveinner .primary{min-width:130px}
+.sectionHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.sectionHead h2{margin:0;font-size:19px}
+.simpleList,.timeline{display:grid;gap:8px}
+.row,.event{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:12px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.row .name{font-weight:800}
+.row .right{display:flex;gap:6px}
+.event{display:grid;grid-template-columns:82px 1fr auto;gap:10px;align-items:center}
+.event .date{font-size:11px;color:var(--mut)}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:11px;font-weight:850}
+.pill.complete{color:var(--green);border-color:#287966}
+.pill.partial{color:var(--yellow);border-color:#82652a}
+.pill.leave{color:var(--blue);border-color:#386596}
+.pill.zero{color:var(--red);border-color:#7e3741}
+.empty{text-align:center;padding:32px 10px;color:var(--mut)}
+.notice{background:#17142c;border:1px solid #403574;color:#d7d2ff;border-radius:14px;padding:11px 12px;font-size:12px;margin-bottom:10px}
+.dangerBox{background:#160d12;border:1px solid #53252f;border-radius:16px;padding:13px;margin-top:14px}
+.dangerBox h4{margin:0 0 5px;color:#ff9aaa}
+.dangerBox p{margin:0 0 10px;color:var(--mut);font-size:12px}
+.dangerGrid{display:grid;grid-template-columns:1fr;gap:7px}
+.nav{position:fixed;left:0;right:0;bottom:0;height:66px;z-index:10;background:rgba(7,11,18,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom)}
+.nav button{border:0;background:transparent;color:var(--mut);font-size:11px;font-weight:850}
+.nav button span{display:block;font-size:19px;margin-bottom:2px}
+.nav button.active{color:white}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.74);z-index:20;display:none;place-items:end center;padding:16px}
+.modal.open{display:grid}
+.sheet{width:min(620px,100%);max-height:88vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px}
+.sheetHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.sheetHead h3{margin:0}
+.form{display:grid;gap:10px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field label{display:block;color:var(--mut);font-size:11px;margin-bottom:5px}
+.actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;margin-top:14px}
+.toast{position:fixed;right:14px;bottom:82px;z-index:50;background:#172238;border:1px solid var(--line);border-radius:12px;padding:10px 12px;opacity:0;transform:translateY(28px);transition:.2s}
+.toast.show{opacity:1;transform:none}
+@media(min-width:760px){
+  .app{padding:26px 20px 100px}
+  .list{grid-template-columns:repeat(2,1fr)}
+  .simpleList{grid-template-columns:repeat(2,1fr)}
+  .nav{top:20px;bottom:auto;left:auto;right:calc((100vw - min(980px,100vw))/2 + 20px);height:auto;width:auto;border:1px solid var(--line);border-radius:14px;padding:4px;grid-template-columns:repeat(4,auto)}
+  .nav button{padding:7px 10px}.nav button span{display:none}
+  .header{padding-right:335px}
+  .savebar{bottom:0}
+  .modal{place-items:center}
+  .dangerGrid{grid-template-columns:repeat(3,1fr)}
+}
 </style>
 </head>
 <body>
 <div class="app">
-<aside>
-<div class="brand"><div class="logo">♛</div><div class="bt"><b>Gang Manager</b><small>Roster & Discipline</small></div></div>
-<nav>
-<button class="active" data-p="daily">✅ <span>เช็กประจำวัน</span></button>
-<button data-p="members">👥 <span>สมาชิก</span></button>
-<button data-p="history">📜 <span>ประวัติ</span></button>
-<button data-p="discipline">⚖️ <span>ทัณฑ์บน</span></button>
-<button data-p="settings">⚙️ <span>ตั้งค่า</span></button>
-</nav>
-</aside>
-<main>
-<section id="daily" class="page active">
-<div class="top"><div><h1>เช็กสมาชิกประจำวัน</h1><p>ครบ / ไม่ครบ / ลา / ไม่เก็บ และบันทึกบทลงโทษอัตโนมัติ</p></div><div class="datebox">📅 <input id="date" type="date"></div></div>
-<div class="cards"><div class="card"><div class="k">สมาชิก</div><div class="v" id="c1">0</div></div><div class="card"><div class="k">เช็กแล้ว</div><div class="v" id="c2">0</div></div><div class="card"><div class="k">ครบ</div><div class="v" id="c3">0</div></div><div class="card"><div class="k">ลา</div><div class="v" id="c4">0</div></div><div class="card"><div class="k">ต้องติดตาม</div><div class="v" id="c5">0</div></div></div>
-<div class="grid">
-<div class="panel"><div class="head"><h2>รายชื่อ</h2><div class="tools"><input id="search" placeholder="ค้นหาชื่อ"><select id="filter"><option value="all">ทั้งหมด</option><option value="attention">ต้องติดตาม</option><option value="unchecked">ยังไม่เช็ก</option><option value="leave">ลา</option></select><button class="btn primary" id="save">บันทึกวันนี้</button></div></div><div class="table"><table><thead><tr><th>สมาชิก</th><th>เป้า</th><th>ยอด</th><th>สถานะ</th><th>ความผิด</th></tr></thead><tbody id="body"></tbody></table></div></div>
-<div class="panel"><div class="head"><h2>สรุปวันนี้</h2><button class="btn" id="copy">คัดลอก</button></div><div class="summary" id="summary"></div></div>
+  <div class="header">
+    <div class="brand">
+      <div class="logo">♛</div>
+      <div><h1>Gang Manager</h1><div class="muted">เช็กสมาชิกแบบง่าย</div></div>
+    </div>
+    <button class="icon" id="openSettings">⚙️</button>
+  </div>
+
+  <section class="page active" id="todayPage">
+    <div class="dateRow">
+      <button class="icon" id="prevDay">‹</button>
+      <input id="date" type="date">
+      <button class="icon" id="nextDay">›</button>
+    </div>
+
+    <div class="searchRow">
+      <input id="search" placeholder="ค้นหาสมาชิก">
+      <button class="btn" id="exportTxtTop">TXT</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b id="stChecked">0</b><span>เช็กแล้ว</span></div>
+      <div class="stat"><b id="stComplete">0</b><span>ครบ</span></div>
+      <div class="stat"><b id="stLeave">0</b><span>ลา</span></div>
+      <div class="stat"><b id="stProblem">0</b><span>ต้องตาม</span></div>
+    </div>
+
+    <div class="filters">
+      <button class="chip on" data-filter="all">ทั้งหมด</button>
+      <button class="chip" data-filter="unchecked">ยังไม่เช็ก</button>
+      <button class="chip" data-filter="problem">ต้องตาม</button>
+      <button class="chip" data-filter="leave">ลา</button>
+    </div>
+
+    <div class="list" id="todayList"></div>
+    <div class="empty" id="todayEmpty" style="display:none">ไม่พบสมาชิก</div>
+
+    <div class="savebar">
+      <div class="saveinner">
+        <button class="btn" id="copySummary">คัดลอก</button>
+        <button class="btn" id="exportTxt">Export TXT</button>
+        <button class="btn primary" id="saveDay">บันทึก</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="membersPage">
+    <div class="sectionHead"><h2>สมาชิก</h2><button class="btn primary" id="addMember">+ เพิ่ม</button></div>
+    <input id="memberSearch" placeholder="ค้นหาสมาชิก" style="margin-bottom:10px">
+    <div class="simpleList" id="memberList"></div>
+  </section>
+
+  <section class="page" id="historyPage">
+    <div class="sectionHead"><h2>ประวัติรายวัน</h2><button class="btn" id="historyExport">Export TXT</button></div>
+    <div class="dateRow">
+      <button class="icon" id="hPrev">‹</button>
+      <input id="historyDate" type="date">
+      <button class="icon" id="hNext">›</button>
+    </div>
+    <input id="historySearch" placeholder="ค้นหาชื่อ" style="margin-bottom:10px">
+    <div class="timeline" id="historyList"></div>
+  </section>
+
+  <section class="page" id="disciplinePage">
+    <div class="sectionHead"><h2>บทลงโทษ</h2></div>
+    <div class="notice">ไม่เก็บเลย + ไม่แจ้งลา → ครั้งที่ 1 ทัณฑ์บน · ครั้งที่ 2 ลดขั้น · ครั้งที่ 3 เอาออก</div>
+    <input id="disciplineSearch" placeholder="ค้นหาชื่อ" style="margin-bottom:10px">
+    <div class="timeline" id="disciplineList"></div>
+  </section>
 </div>
-</section>
 
-<section id="members" class="page">
-<div class="top"><div><h1>สมาชิก</h1><p>เพิ่ม แก้ไข เปลี่ยนประเภท และดูประวัติรายคน</p></div><button class="btn primary" id="add">+ เพิ่มสมาชิก</button></div>
-<div class="panel"><div class="head"><h2>สมาชิกทั้งหมด</h2><div class="tools"><input id="msearch" placeholder="ค้นหาสมาชิก"><select id="mfilter"><option value="all">ทั้งหมด</option><option value="regular">สมาชิกปกติ</option><option value="new">สมาชิกใหม่</option><option value="inactive">Inactive</option></select></div></div><div class="members" id="mgrid"></div></div>
-</section>
-
-<section id="history" class="page">
-<div class="top"><div><h1>ประวัติการเช็ก</h1><p>ดูย้อนหลังตามวันที่หรือชื่อสมาชิก</p></div></div>
-<div class="panel"><div class="head"><h2>ประวัติ</h2><div class="tools"><input id="hsearch" placeholder="ค้นชื่อ"><input id="hdate" type="date"></div></div><div class="hist" id="hlist"></div></div>
-</section>
-
-<section id="discipline" class="page">
-<div class="top"><div><h1>ทัณฑ์บนและบทลงโทษ</h1><p>ครั้งที่ 1 ทัณฑ์บน / ครั้งที่ 2 ลดขั้น / ครั้งที่ 3 เอาออก</p></div></div>
-<div class="cards"><div class="card"><div class="k">มีประวัติ</div><div class="v" id="d1">0</div></div><div class="card"><div class="k">ทัณฑ์บน</div><div class="v" id="d2">0</div></div><div class="card"><div class="k">ลดขั้น</div><div class="v" id="d3">0</div></div><div class="card"><div class="k">เอาออก</div><div class="v" id="d4">0</div></div></div>
-<div class="panel"><div class="head"><h2>ประวัติทั้งหมด</h2><input id="dsearch" placeholder="ค้นชื่อ"></div><div class="hist" id="dlist"></div></div>
-</section>
-
-<section id="settings" class="page">
-<div class="top"><div><h1>ตั้งค่า</h1><p>กติกาและสำรองข้อมูล</p></div></div>
-<div class="panel"><div class="mb"><div class="fields"><div class="field"><label>สมาชิกปกติ</label><input id="sr" type="number"></div><div class="field"><label>สมาชิกใหม่</label><input id="sn" type="number"></div><div class="field"><label>ครั้งที่ 1</label><input id="s1"></div><div class="field"><label>ครั้งที่ 2</label><input id="s2"></div><div class="field"><label>ครั้งที่ 3</label><input id="s3"></div></div><div class="right"><button class="btn" id="export">Export JSON</button><label class="btn">Import JSON<input id="import" type="file" accept=".json" hidden></label><button class="btn primary" id="saveset">บันทึก</button></div></div></div>
-</section>
-</main>
+<div class="nav">
+  <button class="active" data-page="todayPage"><span>✅</span>วันนี้</button>
+  <button data-page="membersPage"><span>👥</span>สมาชิก</button>
+  <button data-page="historyPage"><span>📅</span>ประวัติ</button>
+  <button data-page="disciplinePage"><span>⚖️</span>บทลงโทษ</button>
 </div>
 
-<div class="modal" id="modal"><div class="box"><div class="head"><h2 id="mtitle">เพิ่มสมาชิก</h2><button class="btn" id="close">ปิด</button></div><div class="mb"><input type="hidden" id="mid"><div class="fields"><div class="field full"><label>ชื่อ</label><input id="mn"></div><div class="field"><label>ประเภท</label><select id="mt"><option value="regular">สมาชิกปกติ</option><option value="new">สมาชิกใหม่</option></select></div><div class="field"><label>เป้าหมาย</label><input id="mr" type="number"></div><div class="field"><label>Rank</label><input id="mrank"></div><div class="field"><label>สถานะ</label><select id="ma"><option value="1">Active</option><option value="0">Inactive</option></select></div></div><div class="right"><button class="btn primary" id="msave">บันทึก</button></div></div></div></div>
-<div class="modal" id="profile"><div class="box"><div class="head"><h2 id="ptitle">ประวัติ</h2><button class="btn" id="pclose">ปิด</button></div><div class="mb" id="pbody"></div></div></div>
+<div class="modal" id="memberModal">
+  <div class="sheet">
+    <div class="sheetHead"><h3 id="memberTitle">เพิ่มสมาชิก</h3><button class="icon" data-close="memberModal">×</button></div>
+    <input id="mId" type="hidden">
+    <div class="form">
+      <div class="field"><label>ชื่อสมาชิก</label><input id="mName"></div>
+      <div class="two">
+        <div class="field"><label>ประเภท</label><select id="mType"><option value="regular">สมาชิกปกติ</option><option value="new">สมาชิกใหม่</option></select></div>
+        <div class="field"><label>เป้าหมาย</label><input id="mRequired" type="number" min="0"></div>
+      </div>
+      <div class="two">
+        <div class="field"><label>ขั้น / Rank</label><input id="mRank"></div>
+        <div class="field"><label>สถานะ</label><select id="mActive"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+      </div>
+    </div>
+    <div class="actions"><button class="btn" data-close="memberModal">ยกเลิก</button><button class="btn primary" id="saveMember">บันทึก</button></div>
+  </div>
+</div>
+
+<div class="modal" id="profileModal">
+  <div class="sheet">
+    <div class="sheetHead"><h3 id="profileTitle">ประวัติสมาชิก</h3><button class="icon" data-close="profileModal">×</button></div>
+    <div id="profileBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="settingsModal">
+  <div class="sheet">
+    <div class="sheetHead"><h3>ตั้งค่า</h3><button class="icon" data-close="settingsModal">×</button></div>
+
+    <div class="form">
+      <div class="two">
+        <div class="field"><label>สมาชิกปกติ</label><input id="setRegular" type="number"></div>
+        <div class="field"><label>สมาชิกใหม่</label><input id="setNew" type="number"></div>
+      </div>
+      <div class="field"><label>ครั้งที่ 1</label><input id="setFirst"></div>
+      <div class="field"><label>ครั้งที่ 2</label><input id="setSecond"></div>
+      <div class="field"><label>ครั้งที่ 3</label><input id="setThird"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="exportJson">Export JSON</button>
+      <label class="btn">Import JSON<input id="importJson" type="file" accept=".json" hidden></label>
+      <button class="btn primary" id="saveSettings">บันทึก</button>
+    </div>
+
+    <div class="dangerBox">
+      <h4>รีเซ็ตประวัติ</h4>
+      <p>สมาชิกและการตั้งค่าจะไม่ถูกลบ เว้นแต่คุณจะลบสมาชิกเอง</p>
+      <div class="dangerGrid">
+        <button class="btn danger" id="resetSelectedDate">ล้างวันที่ที่เลือก</button>
+        <button class="btn danger" id="resetAllDaily">ล้างประวัติรายวัน</button>
+        <button class="btn danger" id="resetAllHistory">ล้างทุกประวัติ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 var KEY="gang_manager_2026_v1";
 var oldNames=["Ja Kin","Thomas Ani","Mint Sct","Nanon Nanon","Model Model","Boss Sixnine","Beer Slow","Maysa April","Confirm Ok","Ku Bu","Pe Pe","Peter Davidson","Declan Rice","Ah Wang","Roronoa Zoro","Regency Soda","Akiko Ani","Iris Iris","Mr Palmy","Mark Ok","Jules Kaylan","Mr Midnice","Almond Diwa","Errik Maximillia","Zidan Ss","Helene Anderton","Pill Deksoy","Bat Isus","Owan Ssr","Nadia Nn","Justin Ghv","Arngoenj Singchai","Dom Mee","Lion King","Chi Code","Tne Mawin","George Sloth","Sanny Hobby","Lil Ghost","Adam Isus","Jimmy Elenio"];
 var newNames=["Dommi Bestovski","Dmon Jony","St Dees","Celine Rindaman"];
+
 function makeSeed(){
- var members=[];var all=oldNames.concat(newNames);for(var i=0;i<all.length;i++)members.push({id:"m"+(i+1),name:all[i],type:newNames.indexOf(all[i])>=0?"new":"regular",required:newNames.indexOf(all[i])>=0?200:100,rank:"",active:true});
- var by={};members.forEach(function(m){by[m.name]=m.id});
- var rec=[],p={"Dommi Bestovski":234,"Mr Midnice":100,"Jules Kaylan":350,"Helene Anderton":250,"Model Model":200,"Akiko Ani":100,"Mark Ok":100,"Sanny Hobby":100,"Confirm Ok":100,"Iris Iris":100,"Nadia Nn":100,"Mr Palmy":99,"Thomas Ani":100,"Regency Soda":100,"Ja Kin":100,"Justin Ghv":100,"Maysa April":100,"Boss Sixnine":100,"Arngoenj Singchai":100,"Mint Sct":50,"Pe Pe":99,"Declan Rice":50,"Dmon Jony":117,"Almond Diwa":100,"Lion King":100,"Lil Ghost":100,"George Sloth":100,"Ah Wang":100,"Pill Deksoy":100,"Chi Code":50,"St Dees":0,"Celine Rindaman":0};
- var leave=["Roronoa Zoro","Nanon Nanon","Zidan Ss","Peter Davidson","Ku Bu","Mint Sct"];
- var zero=["Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Dom Mee","Adam Isus","Jimmy Elenio"];
- Object.keys(p).forEach(function(n){var req=newNames.indexOf(n)>=0?200:100;var a=p[n],st=leave.indexOf(n)>=0?"leave":a===0?"zero":a>=req?"complete":"partial";rec.push({id:"r"+rec.length,date:"2026-10-25",memberId:by[n],status:st,amount:a,required:req,note:""})});
- leave.forEach(function(n){if(p[n]===undefined)rec.push({id:"r"+rec.length,date:"2026-10-25",memberId:by[n],status:"leave",amount:0,required:100,note:""})});
- zero.forEach(function(n){rec.push({id:"r"+rec.length,date:"2026-10-25",memberId:by[n],status:"zero",amount:0,required:100,note:""})});
- var dis=[];["Model Model","Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Adam Isus"].forEach(function(n){dis.push({id:"d"+dis.length,memberId:by[n],member:n,date:"2026-10-24",offense:1,action:"ทัณฑ์บน 1 ใบ",reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา"})});
- ["Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Adam Isus"].forEach(function(n){dis.push({id:"d"+dis.length,memberId:by[n],member:n,date:"2026-10-25",offense:2,action:"ลดขั้น",reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา"})});
- ["Dom Mee","Jimmy Elenio","St Dees","Celine Rindaman"].forEach(function(n){dis.push({id:"d"+dis.length,memberId:by[n],member:n,date:"2026-10-25",offense:1,action:"ทัณฑ์บน 1 ใบ",reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา"})});
- return{members:members,records:rec,discipline:dis,settings:{regularRequired:100,newRequired:200,firstAction:"ทัณฑ์บน 1 ใบ",secondAction:"ลดขั้น",thirdAction:"เอาออกจากแก๊ง",snapshot:"2026-10-25",pendingUnnamedNewMember:1}};
+  var members=[],all=oldNames.concat(newNames),by={};
+  all.forEach(function(n,i){
+    var nn=newNames.indexOf(n)>=0;
+    var m={id:"m"+(i+1),name:n,type:nn?"new":"regular",required:nn?200:100,rank:"",active:true};
+    members.push(m);by[n]=m.id;
+  });
+
+  var records=[];
+  var amounts={
+    "Dommi Bestovski":234,"Mr Midnice":100,"Jules Kaylan":350,"Helene Anderton":250,"Model Model":200,
+    "Akiko Ani":100,"Mark Ok":100,"Sanny Hobby":100,"Confirm Ok":100,"Iris Iris":100,"Nadia Nn":100,
+    "Mr Palmy":99,"Thomas Ani":100,"Regency Soda":100,"Ja Kin":100,"Justin Ghv":100,"Maysa April":100,
+    "Boss Sixnine":100,"Arngoenj Singchai":100,"Mint Sct":50,"Pe Pe":99,"Declan Rice":50,"Dmon Jony":117,
+    "Almond Diwa":100,"Lion King":100,"Lil Ghost":100,"George Sloth":100,"Ah Wang":100,"Pill Deksoy":100,
+    "Chi Code":50,"St Dees":0,"Celine Rindaman":0
+  };
+  var leave=["Roronoa Zoro","Nanon Nanon","Zidan Ss","Peter Davidson","Ku Bu","Mint Sct"];
+  var zero=["Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Dom Mee","Adam Isus","Jimmy Elenio"];
+
+  Object.keys(amounts).forEach(function(n){
+    var rq=newNames.indexOf(n)>=0?200:100,a=amounts[n];
+    var st=leave.indexOf(n)>=0?"leave":a===0?"zero":a>=rq?"complete":"partial";
+    records.push({id:"r"+records.length,date:"2026-10-25",memberId:by[n],status:st,amount:a,required:rq});
+  });
+  leave.forEach(function(n){
+    if(amounts[n]===undefined)records.push({id:"r"+records.length,date:"2026-10-25",memberId:by[n],status:"leave",amount:0,required:100});
+  });
+  zero.forEach(function(n){
+    records.push({id:"r"+records.length,date:"2026-10-25",memberId:by[n],status:"zero",amount:0,required:100});
+  });
+
+  var discipline=[];
+  ["Model Model","Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Adam Isus"].forEach(function(n){
+    discipline.push({id:"d"+discipline.length,memberId:by[n],member:n,date:"2026-10-24",offense:1,action:"ทัณฑ์บน 1 ใบ",reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา",auto:true});
+  });
+  ["Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Adam Isus"].forEach(function(n){
+    discipline.push({id:"d"+discipline.length,memberId:by[n],member:n,date:"2026-10-25",offense:2,action:"ลดขั้น",reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา",auto:true});
+  });
+  ["Dom Mee","Jimmy Elenio","St Dees","Celine Rindaman"].forEach(function(n){
+    discipline.push({id:"d"+discipline.length,memberId:by[n],member:n,date:"2026-10-25",offense:1,action:"ทัณฑ์บน 1 ใบ",reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา",auto:true});
+  });
+
+  return {
+    members:members,
+    records:records,
+    discipline:discipline,
+    settings:{regularRequired:100,newRequired:200,firstAction:"ทัณฑ์บน 1 ใบ",secondAction:"ลดขั้น",thirdAction:"เอาออกจากแก๊ง"}
+  };
 }
-function clone(x){return JSON.parse(JSON.stringify(x))}var db;try{db=JSON.parse(localStorage.getItem(KEY))||makeSeed()}catch(e){db=makeSeed()}function saveDB(){localStorage.setItem(KEY,JSON.stringify(db))}
+
+var db;
+try{db=JSON.parse(localStorage.getItem(KEY))||makeSeed()}catch(e){db=makeSeed()}
+
+function persist(){localStorage.setItem(KEY,JSON.stringify(db))}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-function member(id){return db.members.find(function(m){return m.id===id})}function req(m){return Number(m.required|| (m.type==="new"?db.settings.newRequired:db.settings.regularRequired))}
-function off(id){var m=member(id);return db.discipline.filter(function(x){return x.memberId===id||(!x.memberId&&x.member===m.name)}).length}
+function member(id){return db.members.find(function(m){return m.id===id})}
+function req(m){return Number(m.required || (m.type==="new"?db.settings.newRequired:db.settings.regularRequired))}
+function offenses(id){
+  var m=member(id);
+  if(!m)return 0;
+  return db.discipline.filter(function(x){return x.memberId===id || (!x.memberId&&x.member===m.name)}).length
+}
 function action(n){return n>=3?db.settings.thirdAction:n===2?db.settings.secondAction:n===1?db.settings.firstAction:"ปกติ"}
-function lab(s){return{complete:"ครบ",partial:"ไม่ครบ",leave:"ลา",zero:"ไม่เก็บ"}[s]||"ยังไม่เช็ก"}function cls(s){return s==="complete"?"ok":s==="partial"?"part":s==="leave"?"leave":s==="zero"?"zero":""}
-function toast(t){var x=document.getElementById("toast");x.textContent=t;x.classList.add("show");setTimeout(function(){x.classList.remove("show")},1500)}
-function today(){var d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),da=String(d.getDate()).padStart(2,"0");return y+"-"+m+"-"+da}
-var draft={};var date=document.getElementById("date");date.value="2026-10-25";
-function loadDraft(){draft={};db.members.filter(function(m){return m.active}).forEach(function(m){var r=db.records.find(function(x){return x.memberId===m.id&&x.date===date.value});draft[m.id]=r?{status:r.status,amount:r.amount,required:r.required}:{status:"",amount:"",required:req(m)}})}
-function stat(d){if(d.status==="leave")return"leave";if(d.status==="zero")return"zero";if(d.status==="complete")return"complete";if(d.status==="partial")return"partial";if(d.amount==="")return"";var a=Number(d.amount||0);return a===0?"zero":a>=Number(d.required)?"complete":"partial"}
-function renderDaily(){var q=document.getElementById("search").value.toLowerCase(),f=document.getElementById("filter").value,b=document.getElementById("body");b.innerHTML="";var c=0,ok=0,l=0,att=0,active=db.members.filter(function(m){return m.active});
- active.forEach(function(m){var d=draft[m.id],s=stat(d);if(s)c++;if(s==="complete")ok++;if(s==="leave")l++;if(s==="partial"||s==="zero")att++;var show=m.name.toLowerCase().includes(q);if(f==="attention")show=show&&(s==="partial"||s==="zero");if(f==="unchecked")show=show&&!s;if(f==="leave")show=show&&s==="leave";if(!show)return;var tr=document.createElement("tr");tr.innerHTML="<td><div class='name'>"+esc(m.name)+"</div><div class='sub'>"+(m.type==="new"?"สมาชิกใหม่":"สมาชิกปกติ")+"</div></td><td>"+d.required+"</td><td><input type='number' min='0' style='width:85px' data-a='"+m.id+"' value='"+d.amount+"'></td><td><div class='sbtns'>"+["complete","partial","leave","zero"].map(function(x){return"<button class='"+(s===x?"on ":"")+cls(x)+"' data-id='"+m.id+"' data-s='"+x+"'>"+lab(x)+"</button>"}).join("")+"</div></td><td><button class='btn' data-pro='"+m.id+"'>"+off(m.id)+" ครั้ง · "+esc(action(off(m.id)))+"</button></td>";b.appendChild(tr)});
- document.getElementById("c1").textContent=active.length;document.getElementById("c2").textContent=c;document.getElementById("c3").textContent=ok;document.getElementById("c4").textContent=l;document.getElementById("c5").textContent=att;
- b.querySelectorAll("[data-a]").forEach(function(i){i.onchange=function(){var d=draft[i.dataset.a];d.amount=i.value;d.status=i.value===""?"":Number(i.value)===0?"zero":Number(i.value)>=Number(d.required)?"complete":"partial";renderDaily()}});
- b.querySelectorAll("[data-s]").forEach(function(x){x.onclick=function(){var d=draft[x.dataset.id];d.status=x.dataset.s;if(d.status==="zero")d.amount=0;if(d.status==="complete"&&(d.amount===""||Number(d.amount)<Number(d.required)))d.amount=d.required;renderDaily()}});
- b.querySelectorAll("[data-pro]").forEach(function(x){x.onclick=function(){profile(x.dataset.pro)}});summary()}
-function summary(){var z=[],p=[],l=[],u=[];db.members.filter(function(m){return m.active}).forEach(function(m){var d=draft[m.id],s=stat(d);var o={m:m,d:d};if(s==="zero")z.push(o);else if(s==="partial")p.push(o);else if(s==="leave")l.push(o);else if(!s)u.push(o)});
- function g(t,a,c){return"<div class='group'><h3>"+t+" ("+a.length+")</h3>"+(a.length?a.map(function(x){return"<div class='row'><span>"+esc(x.m.name)+"</span><span class='pill "+c+"'>"+(x.d.amount===""?lab(stat(x.d)):x.d.amount+"/"+x.d.required)+"</span></div>"}).join(""):"<div class='sub'>ไม่มี</div>")+"</div>"}
- document.getElementById("summary").innerHTML=g("ไม่เก็บเลย",z,"zero")+g("เก็บไม่ครบ",p,"part")+g("แจ้งลา",l,"leave")+g("ยังไม่เช็ก",u,"")}
-function sumText(){var z=[],p=[],l=[];db.members.filter(function(m){return m.active}).forEach(function(m){var d=draft[m.id],s=stat(d);if(s==="zero")z.push(m.name);if(s==="partial")p.push(m.name+" — "+d.amount+"/"+d.required);if(s==="leave")l.push(m.name)});return["สรุป "+date.value,"","ไม่เก็บเลย:",z.length?z.join("\n"):"ไม่มี","","เก็บไม่ครบ:",p.length?p.join("\n"):"ไม่มี","","แจ้งลา:",l.length?l.join("\n"):"ไม่มี"].join("\n")}
-document.getElementById("copy").onclick=function(){navigator.clipboard.writeText(sumText()).then(function(){toast("คัดลอกแล้ว")})};
-document.getElementById("save").onclick=function(){var dt=date.value;db.members.filter(function(m){return m.active}).forEach(function(m){var d=draft[m.id],s=stat(d),ix=db.records.findIndex(function(r){return r.memberId===m.id&&r.date===dt});if(!s){if(ix>=0)db.records.splice(ix,1);return}var r={id:ix>=0?db.records[ix].id:"r"+Date.now()+m.id,date:dt,memberId:m.id,status:s,amount:Number(d.amount||0),required:Number(d.required),note:""};if(ix>=0)db.records[ix]=r;else db.records.push(r);
- var auto=db.discipline.find(function(x){return x.memberId===m.id&&x.date===dt&&x.auto});if(s==="zero"&&!auto){var n=off(m.id)+1;db.discipline.push({id:"d"+Date.now()+m.id,memberId:m.id,member:m.name,date:dt,offense:n,action:action(n),reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา",auto:true});if(n>=3)m.active=false}else if(s!=="zero"&&auto){db.discipline=db.discipline.filter(function(x){return x!==auto})}});
- saveDB();loadDraft();renderDaily();toast("บันทึกแล้ว")};
-document.getElementById("search").oninput=renderDaily;document.getElementById("filter").onchange=renderDaily;date.onchange=function(){loadDraft();renderDaily()};
+function label(s){return{complete:"ครบ",partial:"ไม่ครบ",leave:"ลา",zero:"ไม่เก็บ"}[s]||"ยังไม่เช็ก"}
+function today(){
+  var d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),x=String(d.getDate()).padStart(2,"0");
+  return y+"-"+m+"-"+x
+}
+function shiftDate(value,days){
+  var p=value.split("-"),d=new Date(Number(p[0]),Number(p[1])-1,Number(p[2]));
+  d.setDate(d.getDate()+days);
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")
+}
+function toast(t){
+  var x=document.getElementById("toast");x.textContent=t;x.classList.add("show");
+  setTimeout(function(){x.classList.remove("show")},1400)
+}
+function download(name,text,type){
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([text],{type:type||"text/plain;charset=utf-8"}));
+  a.download=name;a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href)},500)
+}
+function statusOf(d){
+  if(!d)return"";
+  if(d.status==="leave")return"leave";
+  if(d.status==="zero")return"zero";
+  if(d.status==="complete")return"complete";
+  if(d.status==="partial")return"partial";
+  if(d.amount===""||d.amount==null)return"";
+  var a=Number(d.amount||0);
+  return a===0?"zero":a>=Number(d.required)?"complete":"partial"
+}
 
-function renderMembers(){var q=document.getElementById("msearch").value.toLowerCase(),f=document.getElementById("mfilter").value,g=document.getElementById("mgrid");g.innerHTML="";db.members.filter(function(m){return m.name.toLowerCase().includes(q)}).filter(function(m){return f==="all"?true:f==="inactive"?!m.active:m.active&&m.type===f}).forEach(function(m){var d=document.createElement("div");d.className="mcard";d.innerHTML="<h3>"+esc(m.name)+"</h3><div class='sub'>"+(m.active?"Active":"Inactive")+" · "+(m.type==="new"?"สมาชิกใหม่":"สมาชิกปกติ")+" · เป้า "+req(m)+"</div><div class='right'><button class='btn' data-p='"+m.id+"'>ประวัติ</button><button class='btn' data-e='"+m.id+"'>แก้ไข</button></div>";g.appendChild(d)});g.querySelectorAll("[data-p]").forEach(function(x){x.onclick=function(){profile(x.dataset.p)}});g.querySelectorAll("[data-e]").forEach(function(x){x.onclick=function(){openMember(x.dataset.e)}})}
-function openMember(id){var m=id?member(id):null;document.getElementById("mid").value=m?m.id:"";document.getElementById("mn").value=m?m.name:"";document.getElementById("mt").value=m?m.type:"regular";document.getElementById("mr").value=m?req(m):db.settings.regularRequired;document.getElementById("mrank").value=m?m.rank||"":"";document.getElementById("ma").value=m&&m.active===false?"0":"1";document.getElementById("mtitle").textContent=m?"แก้ไขสมาชิก":"เพิ่มสมาชิก";document.getElementById("modal").classList.add("open")}
-document.getElementById("add").onclick=function(){openMember()};document.getElementById("close").onclick=function(){document.getElementById("modal").classList.remove("open")};document.getElementById("mt").onchange=function(){document.getElementById("mr").value=this.value==="new"?db.settings.newRequired:db.settings.regularRequired};
-document.getElementById("msave").onclick=function(){var id=document.getElementById("mid").value,n=document.getElementById("mn").value.trim();if(!n)return toast("ใส่ชื่อก่อน");var o={id:id||"m"+Date.now(),name:n,type:document.getElementById("mt").value,required:Number(document.getElementById("mr").value||0),rank:document.getElementById("mrank").value.trim(),active:document.getElementById("ma").value==="1"};var ix=db.members.findIndex(function(m){return m.id===id});if(ix>=0)db.members[ix]=o;else db.members.push(o);saveDB();document.getElementById("modal").classList.remove("open");loadDraft();renderMembers();toast("บันทึกสมาชิกแล้ว")};
-document.getElementById("msearch").oninput=renderMembers;document.getElementById("mfilter").onchange=renderMembers;
+function renumberDiscipline(){
+  db.members.forEach(function(m){
+    var arr=db.discipline.filter(function(x){return x.memberId===m.id||(!x.memberId&&x.member===m.name)}).sort(function(a,b){return a.date.localeCompare(b.date)});
+    arr.forEach(function(x,i){x.offense=i+1;x.action=action(i+1)});
+  });
+}
 
-function profile(id){var m=member(id),r=db.records.filter(function(x){return x.memberId===id}).sort(function(a,b){return b.date.localeCompare(a.date)}),d=db.discipline.filter(function(x){return x.memberId===id}).sort(function(a,b){return b.date.localeCompare(a.date)});document.getElementById("ptitle").textContent=m.name;document.getElementById("pbody").innerHTML="<div class='cards' style='grid-template-columns:repeat(3,1fr)'><div class='card'><div class='k'>เป้า</div><div class='v'>"+req(m)+"</div></div><div class='card'><div class='k'>ความผิด</div><div class='v'>"+off(id)+"</div></div><div class='card'><div class='k'>สถานะ</div><div class='v' style='font-size:16px'>"+esc(action(off(id)))+"</div></div></div><h3>บทลงโทษ</h3>"+(d.length?d.map(function(x){return"<div class='event'><div class='d'>"+x.date+"</div><div><b>ครั้งที่ "+x.offense+" · "+esc(x.action)+"</b><div class='sub'>"+esc(x.reason)+"</div></div></div>"}).join(""):"<div class='empty'>ไม่มี</div>")+"<h3>การเช็กย้อนหลัง</h3>"+(r.length?r.map(function(x){return"<div class='event'><div class='d'>"+x.date+"</div><div><b>"+lab(x.status)+"</b><div class='sub'>"+x.amount+"/"+x.required+"</div></div><span class='pill "+cls(x.status)+"'>"+lab(x.status)+"</span></div>"}).join(""):"<div class='empty'>ไม่มี</div>");document.getElementById("profile").classList.add("open")}
-document.getElementById("pclose").onclick=function(){document.getElementById("profile").classList.remove("open")};
+var date=document.getElementById("date");
+date.value=today();
+var draft={},filter="all";
 
-function renderHistory(){var q=document.getElementById("hsearch").value.toLowerCase(),dt=document.getElementById("hdate").value,a=db.records.map(function(r){return{r:r,m:member(r.memberId)}}).filter(function(x){return x.m&&x.m.name.toLowerCase().includes(q)&&(!dt||x.r.date===dt)}).sort(function(a,b){return b.r.date.localeCompare(a.r.date)});document.getElementById("hlist").innerHTML=a.length?a.map(function(x){return"<div class='event'><div class='d'>"+x.r.date+"</div><div><b>"+esc(x.m.name)+"</b><div class='sub'>"+x.r.amount+"/"+x.r.required+"</div></div><span class='pill "+cls(x.r.status)+"'>"+lab(x.r.status)+"</span></div>"}).join(""):"<div class='empty'>ไม่มีข้อมูล</div>"}
-document.getElementById("hsearch").oninput=renderHistory;document.getElementById("hdate").onchange=renderHistory;
+function loadDraft(){
+  draft={};
+  db.members.filter(function(m){return m.active}).forEach(function(m){
+    var r=db.records.find(function(x){return x.memberId===m.id&&x.date===date.value});
+    draft[m.id]=r?{status:r.status,amount:r.amount,required:r.required}:{status:"",amount:"",required:req(m)};
+  });
+}
 
-function renderDis(){var q=document.getElementById("dsearch").value.toLowerCase(),cnt={};db.members.forEach(function(m){cnt[m.id]=off(m.id)});var vals=Object.values(cnt);document.getElementById("d1").textContent=vals.filter(function(n){return n>0}).length;document.getElementById("d2").textContent=vals.filter(function(n){return n===1}).length;document.getElementById("d3").textContent=vals.filter(function(n){return n===2}).length;document.getElementById("d4").textContent=vals.filter(function(n){return n>=3}).length;var a=db.discipline.filter(function(x){return (member(x.memberId)?member(x.memberId).name:x.member).toLowerCase().includes(q)}).sort(function(a,b){return b.date.localeCompare(a.date)});document.getElementById("dlist").innerHTML=a.length?a.map(function(x){var n=member(x.memberId)?member(x.memberId).name:x.member;return"<div class='event'><div class='d'>"+x.date+"</div><div><b>"+esc(n)+" · ครั้งที่ "+x.offense+"</b><div class='sub'>"+esc(x.reason)+"</div></div><span class='pill "+(x.offense>=3?"zero":x.offense===2?"part":"leave")+"'>"+esc(x.action)+"</span></div>"}).join(""):"<div class='empty'>ไม่มีประวัติ</div>"}
-document.getElementById("dsearch").oninput=renderDis;
+function renderToday(){
+  var q=document.getElementById("search").value.toLowerCase();
+  var list=document.getElementById("todayList");
+  list.innerHTML="";
+  var checked=0,complete=0,leave=0,problem=0,shown=0;
 
-function settings(){document.getElementById("sr").value=db.settings.regularRequired;document.getElementById("sn").value=db.settings.newRequired;document.getElementById("s1").value=db.settings.firstAction;document.getElementById("s2").value=db.settings.secondAction;document.getElementById("s3").value=db.settings.thirdAction}
-document.getElementById("saveset").onclick=function(){db.settings.regularRequired=Number(document.getElementById("sr").value||100);db.settings.newRequired=Number(document.getElementById("sn").value||200);db.settings.firstAction=document.getElementById("s1").value;db.settings.secondAction=document.getElementById("s2").value;db.settings.thirdAction=document.getElementById("s3").value;saveDB();toast("บันทึกตั้งค่าแล้ว")};
-function download(name,txt){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"application/json"}));a.download=name;a.click()}
-document.getElementById("export").onclick=function(){download("gang-manager-backup.json",JSON.stringify(db,null,2))};
-document.getElementById("import").onchange=function(e){var f=e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{db=JSON.parse(rd.result);saveDB();loadDraft();renderDaily();toast("Import สำเร็จ")}catch(x){toast("ไฟล์ไม่ถูกต้อง")}};rd.readAsText(f)};
+  db.members.filter(function(m){return m.active}).forEach(function(m){
+    var d=draft[m.id],s=statusOf(d);
+    if(s)checked++;
+    if(s==="complete")complete++;
+    if(s==="leave")leave++;
+    if(s==="zero"||s==="partial")problem++;
 
-document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){document.querySelectorAll("nav button").forEach(function(x){x.classList.toggle("active",x===b)});document.querySelectorAll(".page").forEach(function(x){x.classList.toggle("active",x.id===b.dataset.p)});if(b.dataset.p==="members")renderMembers();if(b.dataset.p==="history")renderHistory();if(b.dataset.p==="discipline")renderDis();if(b.dataset.p==="settings")settings()}});
-loadDraft();renderDaily();if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
+    var show=m.name.toLowerCase().includes(q);
+    if(filter==="unchecked")show=show&&!s;
+    if(filter==="problem")show=show&&(s==="zero"||s==="partial");
+    if(filter==="leave")show=show&&s==="leave";
+    if(!show)return;
+    shown++;
+
+    var o=offenses(m.id),badge=o>=2?"w2":o===1?"w1":"";
+    var card=document.createElement("div");
+    card.className="member";
+    card.innerHTML=
+      "<div class='mtop'>"+
+        "<div><div class='mname'>"+esc(m.name)+"</div><div class='meta'>"+(m.type==="new"?"สมาชิกใหม่":"สมาชิกปกติ")+" · เป้า "+d.required+"</div></div>"+
+        "<button class='badge "+badge+"' data-profile='"+m.id+"'>"+o+" ความผิด</button>"+
+      "</div>"+
+      "<div class='controls'>"+
+        "<input class='amount' type='number' min='0' data-amount='"+m.id+"' value='"+(d.amount==null?"":d.amount)+"' placeholder='ยอด'>"+
+        "<div class='status'>"+
+          ["complete","partial","leave","zero"].map(function(x){
+            return "<button class='"+(s===x?"on ":"")+x+"' data-id='"+m.id+"' data-status='"+x+"'>"+label(x)+"</button>"
+          }).join("")+
+        "</div>"+
+      "</div>";
+
+    list.appendChild(card);
+  });
+
+  document.getElementById("stChecked").textContent=checked;
+  document.getElementById("stComplete").textContent=complete;
+  document.getElementById("stLeave").textContent=leave;
+  document.getElementById("stProblem").textContent=problem;
+  document.getElementById("todayEmpty").style.display=shown?"none":"block";
+
+  list.querySelectorAll("[data-amount]").forEach(function(i){
+    i.onchange=function(){
+      var d=draft[i.dataset.amount];
+      d.amount=i.value;
+      if(d.status!=="leave"){
+        if(i.value==="")d.status="";
+        else if(Number(i.value)===0)d.status="zero";
+        else if(Number(i.value)>=Number(d.required))d.status="complete";
+        else d.status="partial";
+      }
+      renderToday();
+    }
+  });
+
+  list.querySelectorAll("[data-status]").forEach(function(b){
+    b.onclick=function(){
+      var d=draft[b.dataset.id],s=b.dataset.status;
+      d.status=s;
+      if(s==="zero")d.amount=0;
+      if(s==="complete"&&(d.amount===""||Number(d.amount)<Number(d.required)))d.amount=d.required;
+      renderToday();
+    }
+  });
+
+  list.querySelectorAll("[data-profile]").forEach(function(b){
+    b.onclick=function(){openProfile(b.dataset.profile)}
+  });
+}
+
+function saveCurrentDay(){
+  var dt=date.value;
+  db.members.filter(function(m){return m.active}).forEach(function(m){
+    var d=draft[m.id],s=statusOf(d);
+    var ix=db.records.findIndex(function(r){return r.memberId===m.id&&r.date===dt});
+
+    if(!s){
+      if(ix>=0)db.records.splice(ix,1);
+    }else{
+      var rec={
+        id:ix>=0?db.records[ix].id:"r"+Date.now()+m.id,
+        date:dt,memberId:m.id,status:s,amount:Number(d.amount||0),required:Number(d.required)
+      };
+      if(ix>=0)db.records[ix]=rec; else db.records.push(rec);
+    }
+
+    var existingAuto=db.discipline.find(function(x){return x.memberId===m.id&&x.date===dt&&x.auto===true});
+    if(s==="zero"&&!existingAuto){
+      db.discipline.push({
+        id:"d"+Date.now()+m.id,
+        memberId:m.id,member:m.name,date:dt,offense:1,action:"",
+        reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา",auto:true
+      });
+    }
+    if(s!=="zero"&&existingAuto){
+      db.discipline=db.discipline.filter(function(x){return x!==existingAuto});
+    }
+  });
+
+  renumberDiscipline();
+  persist();
+  loadDraft();
+  renderToday();
+  toast("บันทึกแล้ว");
+}
+
+function txtForDate(dt,useDraft){
+  var rows=[];
+  db.members.forEach(function(m){
+    var r;
+    if(useDraft&&draft[m.id]){
+      var d=draft[m.id],s=statusOf(d);
+      if(s)r={status:s,amount:Number(d.amount||0),required:Number(d.required)};
+    }else{
+      r=db.records.find(function(x){return x.memberId===m.id&&x.date===dt});
+    }
+    if(r)rows.push({m:m,r:r});
+  });
+
+  var complete=[],partial=[],leave=[],zero=[];
+  rows.forEach(function(x){
+    var line=x.m.name+" — "+x.r.amount+"/"+x.r.required;
+    if(x.r.status==="complete")complete.push(line);
+    if(x.r.status==="partial")partial.push(line);
+    if(x.r.status==="leave")leave.push(x.m.name);
+    if(x.r.status==="zero")zero.push(x.m.name);
+  });
+
+  var penalties=db.discipline.filter(function(x){return x.date===dt}).map(function(x){
+    var m=member(x.memberId);
+    return (m?m.name:x.member)+" — ครั้งที่ "+x.offense+" : "+x.action;
+  });
+
+  var out=[];
+  out.push("Gang Manager");
+  out.push("วันที่: "+dt);
+  out.push("");
+  out.push("เก็บครบ ("+complete.length+")");
+  out.push(complete.length?complete.join("\n"):"ไม่มี");
+  out.push("");
+  out.push("เก็บไม่ครบ ("+partial.length+")");
+  out.push(partial.length?partial.join("\n"):"ไม่มี");
+  out.push("");
+  out.push("แจ้งลา ("+leave.length+")");
+  out.push(leave.length?leave.join("\n"):"ไม่มี");
+  out.push("");
+  out.push("ไม่เก็บ ("+zero.length+")");
+  out.push(zero.length?zero.join("\n"):"ไม่มี");
+  out.push("");
+  out.push("บทลงโทษของวันนี้ ("+penalties.length+")");
+  out.push(penalties.length?penalties.join("\n"):"ไม่มี");
+  return "\ufeff"+out.join("\n");
+}
+
+function summaryText(){
+  var z=[],p=[],l=[];
+  db.members.filter(function(m){return m.active}).forEach(function(m){
+    var d=draft[m.id],s=statusOf(d);
+    if(s==="zero")z.push(m.name);
+    if(s==="partial")p.push(m.name+" — "+d.amount+"/"+d.required);
+    if(s==="leave")l.push(m.name);
+  });
+  return [
+    "สรุป "+date.value,"",
+    "ไม่เก็บเลย:",z.length?z.join("\n"):"ไม่มี","",
+    "เก็บไม่ครบ:",p.length?p.join("\n"):"ไม่มี","",
+    "แจ้งลา:",l.length?l.join("\n"):"ไม่มี"
+  ].join("\n")
+}
+
+function renderMembers(){
+  var q=document.getElementById("memberSearch").value.toLowerCase(),box=document.getElementById("memberList");
+  box.innerHTML="";
+  var arr=db.members.filter(function(m){return m.name.toLowerCase().includes(q)});
+  if(!arr.length){box.innerHTML="<div class='empty'>ไม่พบสมาชิก</div>";return}
+  arr.forEach(function(m){
+    var r=document.createElement("div");r.className="row";
+    r.innerHTML=
+      "<div><div class='name'>"+esc(m.name)+"</div><div class='muted'>"+(m.active?"Active":"Inactive")+" · "+(m.type==="new"?"สมาชิกใหม่":"สมาชิกปกติ")+" · เป้า "+req(m)+"</div></div>"+
+      "<div class='right'><button class='btn' data-prof='"+m.id+"'>ประวัติ</button><button class='btn' data-edit='"+m.id+"'>แก้ไข</button></div>";
+    box.appendChild(r);
+  });
+  box.querySelectorAll("[data-prof]").forEach(function(b){b.onclick=function(){openProfile(b.dataset.prof)}});
+  box.querySelectorAll("[data-edit]").forEach(function(b){b.onclick=function(){openMember(b.dataset.edit)}});
+}
+
+function openMember(id){
+  var m=id?member(id):null;
+  document.getElementById("memberTitle").textContent=m?"แก้ไขสมาชิก":"เพิ่มสมาชิก";
+  document.getElementById("mId").value=m?m.id:"";
+  document.getElementById("mName").value=m?m.name:"";
+  document.getElementById("mType").value=m?m.type:"regular";
+  document.getElementById("mRequired").value=m?req(m):db.settings.regularRequired;
+  document.getElementById("mRank").value=m?m.rank||"":"";
+  document.getElementById("mActive").value=m&&m.active===false?"0":"1";
+  document.getElementById("memberModal").classList.add("open");
+}
+
+function openProfile(id){
+  var m=member(id);if(!m)return;
+  var rec=db.records.filter(function(x){return x.memberId===id}).sort(function(a,b){return b.date.localeCompare(a.date)});
+  var dis=db.discipline.filter(function(x){return x.memberId===id||(!x.memberId&&x.member===m.name)}).sort(function(a,b){return b.date.localeCompare(a.date)});
+  document.getElementById("profileTitle").textContent=m.name;
+  var html=
+    "<div class='notice'>"+(m.type==="new"?"สมาชิกใหม่":"สมาชิกปกติ")+" · เป้า "+req(m)+" · ความผิด "+offenses(id)+" ครั้ง · "+esc(action(offenses(id)))+"</div>"+
+    "<h4>บทลงโทษ</h4>"+
+    (dis.length?dis.map(function(x){
+      return "<div class='event'><div class='date'>"+x.date+"</div><div><b>ครั้งที่ "+x.offense+" · "+esc(x.action)+"</b><div class='muted'>"+esc(x.reason||"")+"</div></div></div>"
+    }).join(""):"<div class='empty'>ไม่มี</div>")+
+    "<h4>ประวัติรายวัน</h4>"+
+    (rec.length?rec.map(function(x){
+      return "<div class='event'><div class='date'>"+x.date+"</div><div><b>"+label(x.status)+"</b><div class='muted'>"+x.amount+"/"+x.required+"</div></div><span class='pill "+x.status+"'>"+label(x.status)+"</span></div>"
+    }).join(""):"<div class='empty'>ไม่มี</div>");
+  document.getElementById("profileBody").innerHTML=html;
+  document.getElementById("profileModal").classList.add("open");
+}
+
+function renderHistory(){
+  var dt=document.getElementById("historyDate").value;
+  var q=document.getElementById("historySearch").value.toLowerCase();
+  var arr=db.records.filter(function(r){return r.date===dt}).map(function(r){return{r:r,m:member(r.memberId)}}).filter(function(x){return x.m&&x.m.name.toLowerCase().includes(q)}).sort(function(a,b){return a.m.name.localeCompare(b.m.name)});
+  var box=document.getElementById("historyList");
+  box.innerHTML=arr.length?arr.map(function(x){
+    return "<div class='event'><div class='date'>"+x.r.date+"</div><div><b>"+esc(x.m.name)+"</b><div class='muted'>"+x.r.amount+"/"+x.r.required+"</div></div><span class='pill "+x.r.status+"'>"+label(x.r.status)+"</span></div>"
+  }).join(""):"<div class='empty'>ไม่มีข้อมูลวันนี้</div>";
+}
+
+function renderDiscipline(){
+  var q=document.getElementById("disciplineSearch").value.toLowerCase();
+  var arr=db.discipline.filter(function(x){
+    var m=member(x.memberId),n=m?m.name:(x.member||"");
+    return n.toLowerCase().includes(q)
+  }).sort(function(a,b){return b.date.localeCompare(a.date)});
+  var box=document.getElementById("disciplineList");
+  box.innerHTML=arr.length?arr.map(function(x){
+    var m=member(x.memberId),n=m?m.name:x.member;
+    return "<div class='event'><div class='date'>"+x.date+"</div><div><b>"+esc(n)+"</b><div class='muted'>ครั้งที่ "+x.offense+" · "+esc(x.reason||"")+"</div></div><span class='pill "+(x.offense>=3?"zero":x.offense===2?"partial":"leave")+"'>"+esc(x.action)+"</span></div>"
+  }).join(""):"<div class='empty'>ไม่มีประวัติ</div>";
+}
+
+function openSettings(){
+  document.getElementById("setRegular").value=db.settings.regularRequired;
+  document.getElementById("setNew").value=db.settings.newRequired;
+  document.getElementById("setFirst").value=db.settings.firstAction;
+  document.getElementById("setSecond").value=db.settings.secondAction;
+  document.getElementById("setThird").value=db.settings.thirdAction;
+  document.getElementById("settingsModal").classList.add("open");
+}
+
+document.querySelectorAll(".nav button").forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll(".nav button").forEach(function(x){x.classList.toggle("active",x===b)});
+    document.querySelectorAll(".page").forEach(function(x){x.classList.toggle("active",x.id===b.dataset.page)});
+    if(b.dataset.page==="membersPage")renderMembers();
+    if(b.dataset.page==="historyPage"){document.getElementById("historyDate").value=date.value;renderHistory()}
+    if(b.dataset.page==="disciplinePage")renderDiscipline();
+  }
+});
+
+document.querySelectorAll("[data-close]").forEach(function(b){
+  b.onclick=function(){document.getElementById(b.dataset.close).classList.remove("open")}
+});
+
+document.getElementById("search").oninput=renderToday;
+document.querySelectorAll("[data-filter]").forEach(function(b){
+  b.onclick=function(){
+    filter=b.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(function(x){x.classList.toggle("on",x===b)});
+    renderToday();
+  }
+});
+
+date.onchange=function(){loadDraft();renderToday()};
+document.getElementById("prevDay").onclick=function(){date.value=shiftDate(date.value,-1);loadDraft();renderToday()};
+document.getElementById("nextDay").onclick=function(){date.value=shiftDate(date.value,1);loadDraft();renderToday()};
+document.getElementById("saveDay").onclick=saveCurrentDay;
+
+document.getElementById("copySummary").onclick=function(){
+  navigator.clipboard.writeText(summaryText()).then(function(){toast("คัดลอกแล้ว")})
+};
+
+function exportCurrentTxt(){
+  download("gang-"+date.value+".txt",txtForDate(date.value,true),"text/plain;charset=utf-8");
+  toast("Export TXT แล้ว")
+}
+document.getElementById("exportTxt").onclick=exportCurrentTxt;
+document.getElementById("exportTxtTop").onclick=exportCurrentTxt;
+
+document.getElementById("memberSearch").oninput=renderMembers;
+document.getElementById("addMember").onclick=function(){openMember()};
+document.getElementById("mType").onchange=function(){
+  document.getElementById("mRequired").value=this.value==="new"?db.settings.newRequired:db.settings.regularRequired
+};
+document.getElementById("saveMember").onclick=function(){
+  var id=document.getElementById("mId").value;
+  var name=document.getElementById("mName").value.trim();
+  if(!name){toast("ใส่ชื่อสมาชิกก่อน");return}
+  var obj={
+    id:id||"m"+Date.now(),
+    name:name,
+    type:document.getElementById("mType").value,
+    required:Number(document.getElementById("mRequired").value||0),
+    rank:document.getElementById("mRank").value.trim(),
+    active:document.getElementById("mActive").value==="1"
+  };
+  var ix=db.members.findIndex(function(m){return m.id===id});
+  if(ix>=0)db.members[ix]=obj; else db.members.push(obj);
+  persist();
+  document.getElementById("memberModal").classList.remove("open");
+  loadDraft();renderMembers();renderToday();toast("บันทึกสมาชิกแล้ว");
+};
+
+document.getElementById("historyDate").value=date.value;
+document.getElementById("historyDate").onchange=renderHistory;
+document.getElementById("historySearch").oninput=renderHistory;
+document.getElementById("hPrev").onclick=function(){
+  var h=document.getElementById("historyDate");h.value=shiftDate(h.value,-1);renderHistory()
+};
+document.getElementById("hNext").onclick=function(){
+  var h=document.getElementById("historyDate");h.value=shiftDate(h.value,1);renderHistory()
+};
+document.getElementById("historyExport").onclick=function(){
+  var dt=document.getElementById("historyDate").value;
+  download("gang-"+dt+".txt",txtForDate(dt,false),"text/plain;charset=utf-8");
+  toast("Export TXT แล้ว")
+};
+
+document.getElementById("disciplineSearch").oninput=renderDiscipline;
+
+document.getElementById("openSettings").onclick=openSettings;
+document.getElementById("saveSettings").onclick=function(){
+  db.settings.regularRequired=Number(document.getElementById("setRegular").value||100);
+  db.settings.newRequired=Number(document.getElementById("setNew").value||200);
+  db.settings.firstAction=document.getElementById("setFirst").value.trim()||"ทัณฑ์บน 1 ใบ";
+  db.settings.secondAction=document.getElementById("setSecond").value.trim()||"ลดขั้น";
+  db.settings.thirdAction=document.getElementById("setThird").value.trim()||"เอาออกจากแก๊ง";
+  renumberDiscipline();persist();loadDraft();renderToday();
+  document.getElementById("settingsModal").classList.remove("open");
+  toast("บันทึกตั้งค่าแล้ว");
+};
+
+document.getElementById("exportJson").onclick=function(){
+  download("gang-manager-backup.json",JSON.stringify(db,null,2),"application/json;charset=utf-8")
+};
+document.getElementById("importJson").onchange=function(e){
+  var f=e.target.files[0];if(!f)return;
+  var rd=new FileReader();
+  rd.onload=function(){
+    try{
+      var x=JSON.parse(rd.result);
+      if(!x.members||!x.records||!x.discipline||!x.settings)throw new Error("invalid");
+      db=x;persist();loadDraft();renderToday();toast("Import สำเร็จ");
+      document.getElementById("settingsModal").classList.remove("open");
+    }catch(err){toast("ไฟล์ไม่ถูกต้อง")}
+  };
+  rd.readAsText(f);e.target.value="";
+};
+
+document.getElementById("resetSelectedDate").onclick=function(){
+  var dt=date.value;
+  if(!confirm("ล้างข้อมูลวันที่ "+dt+" ทั้งการเช็กและบทลงโทษที่เกิดอัตโนมัติในวันนั้น?"))return;
+  db.records=db.records.filter(function(r){return r.date!==dt});
+  db.discipline=db.discipline.filter(function(d){return !(d.date===dt&&d.auto===true)});
+  renumberDiscipline();persist();loadDraft();renderToday();renderHistory();renderDiscipline();
+  toast("ล้างวันที่ "+dt+" แล้ว");
+};
+
+document.getElementById("resetAllDaily").onclick=function(){
+  if(!confirm("ล้างประวัติการเช็กทุกวันทั้งหมด? ประวัติบทลงโทษจะยังอยู่"))return;
+  db.records=[];
+  persist();loadDraft();renderToday();renderHistory();
+  toast("ล้างประวัติรายวันแล้ว");
+};
+
+document.getElementById("resetAllHistory").onclick=function(){
+  if(!confirm("ล้างทั้งประวัติการเช็กและประวัติบทลงโทษทั้งหมด? สมาชิกจะยังอยู่"))return;
+  if(!confirm("ยืนยันอีกครั้ง: การล้างประวัติทั้งหมดไม่สามารถย้อนกลับได้ หากไม่ได้ Export สำรอง"))return;
+  db.records=[];
+  db.discipline=[];
+  persist();loadDraft();renderToday();renderHistory();renderDiscipline();
+  toast("ล้างทุกประวัติแล้ว");
+};
+
+loadDraft();
+renderToday();
+
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js").catch(function(){});
+}
 </script>
 </body>
 </html>
