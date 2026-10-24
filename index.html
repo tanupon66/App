@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0f1c">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Gang Manager</title>
+<style>
+:root{--bg:#070b13;--p:#0d1422;--p2:#121c2e;--line:#24314c;--txt:#f5f7fb;--mut:#94a3b8;--a:#7c5cff;--a2:#39d6ff;--ok:#2dd4a7;--warn:#ffbe45;--bad:#ff6177;--leave:#6aa9ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#1a1740 0,transparent 30%),var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+aside{padding:20px 14px;border-right:1px solid var(--line);background:rgba(7,11,19,.92);position:sticky;top:0;height:100vh}
+.brand{display:flex;gap:10px;align-items:center;padding:8px 8px 22px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--a),var(--a2));display:grid;place-items:center;font-size:22px}.brand b{font-size:18px}.brand small{display:block;color:var(--mut);margin-top:2px}
+nav{display:grid;gap:8px}nav button{border:0;background:transparent;color:var(--mut);padding:13px;border-radius:13px;text-align:left}nav button.active,nav button:hover{background:var(--p2);color:var(--txt)}
+main{padding:26px;max-width:1500px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:18px}.top h1{margin:0;font-size:30px}.top p{color:var(--mut);margin:5px 0 0}
+input,select{background:#09101d;border:1px solid var(--line);color:var(--txt);border-radius:11px;padding:10px 12px;outline:none}.datebox{display:flex;gap:8px;align-items:center;background:var(--p);border:1px solid var(--line);padding:8px;border-radius:14px}
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:15px}.card{background:linear-gradient(180deg,var(--p2),var(--p));border:1px solid var(--line);border-radius:17px;padding:15px}.card .k{font-size:12px;color:var(--mut)}.card .v{font-size:28px;font-weight:800;margin-top:6px}
+.panel{background:rgba(13,20,34,.96);border:1px solid var(--line);border-radius:18px;overflow:hidden}.head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}.head h2{font-size:17px;margin:0}.tools{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--p2);color:var(--txt);border-radius:11px;padding:9px 12px;font-weight:700}.btn.primary{border:0;background:linear-gradient(135deg,var(--a),#5478ff)}.btn.red{color:#ff91a0;background:#351722}
+.grid{display:grid;grid-template-columns:1.4fr .7fr;gap:14px}.table{overflow:auto}table{width:100%;border-collapse:collapse;min-width:850px}th,td{padding:11px 12px;border-bottom:1px solid rgba(36,49,76,.8);text-align:left}th{font-size:12px;color:var(--mut);background:#0a111e;position:sticky;top:0}.name{font-weight:800}.sub{font-size:12px;color:var(--mut);margin-top:2px}
+.sbtns{display:flex;flex-wrap:wrap;gap:5px}.sbtns button{padding:6px 8px;border-radius:9px;border:1px solid var(--line);background:#09101d;color:var(--mut);font-size:12px;font-weight:800}.sbtns button.on.ok{color:var(--ok);border-color:#2a8b74}.sbtns button.on.part{color:var(--warn);border-color:#8f6b20}.sbtns button.on.leave{color:var(--leave);border-color:#35659b}.sbtns button.on.zero{color:var(--bad);border-color:#953a48}
+.pill{display:inline-block;padding:5px 8px;border-radius:999px;font-size:12px;font-weight:800;border:1px solid}.ok{color:var(--ok);border-color:#2a8b74}.part{color:var(--warn);border-color:#8f6b20}.leave{color:var(--leave);border-color:#35659b}.zero{color:var(--bad);border-color:#953a48}
+.summary{padding:14px}.group{margin-bottom:16px}.group h3{font-size:14px;margin:0 0 7px}.row{display:flex;justify-content:space-between;gap:8px;background:#09101d;border-radius:10px;padding:8px 10px;margin:5px 0}
+.page{display:none}.page.active{display:block}.members{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px}.mcard{background:#09101d;border:1px solid var(--line);border-radius:15px;padding:13px}.mcard h3{margin:0 0 4px}.right{display:flex;gap:7px;justify-content:flex-end;margin-top:12px}
+.hist{padding:0 14px 14px}.event{display:grid;grid-template-columns:110px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.event .d{font-size:12px;color:var(--mut)}.empty{padding:32px;text-align:center;color:var(--mut)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;place-items:center;padding:18px;z-index:10}.modal.open{display:grid}.box{width:min(560px,100%);background:var(--p);border:1px solid var(--line);border-radius:18px;overflow:hidden}.mb{padding:16px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:grid;gap:5px}.field label{font-size:12px;color:var(--mut)}.full{grid-column:1/-1}
+.toast{position:fixed;right:18px;bottom:18px;background:#172238;border:1px solid var(--line);padding:11px 13px;border-radius:11px;opacity:0;transform:translateY(80px);transition:.2s}.toast.show{opacity:1;transform:none}
+@media(max-width:900px){.app{grid-template-columns:76px 1fr}.brand .bt,nav span{display:none}nav button{text-align:center}.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.members{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.app{display:block}aside{position:fixed;z-index:5;left:0;right:0;bottom:0;top:auto;height:70px;padding:8px;border-right:0;border-top:1px solid var(--line)}.brand{display:none}nav{grid-template-columns:repeat(4,1fr)}nav button:nth-child(5){display:none}main{padding:16px 12px 88px}.top{display:block}.datebox{margin-top:10px;width:max-content}.cards{grid-template-columns:repeat(2,1fr)}.cards .card:last-child{grid-column:1/-1}.members{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.full{grid-column:auto}.head{align-items:flex-start;flex-direction:column}.tools{width:100%}.tools input{width:100%}.event{grid-template-columns:85px 1fr}.event>:last-child{grid-column:2}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+<div class="brand"><div class="logo">♛</div><div class="bt"><b>Gang Manager</b><small>Roster & Discipline</small></div></div>
+<nav>
+<button class="active" data-p="daily">✅ <span>เช็กประจำวัน</span></button>
+<button data-p="members">👥 <span>สมาชิก</span></button>
+<button data-p="history">📜 <span>ประวัติ</span></button>
+<button data-p="discipline">⚖️ <span>ทัณฑ์บน</span></button>
+<button data-p="settings">⚙️ <span>ตั้งค่า</span></button>
+</nav>
+</aside>
+<main>
+<section id="daily" class="page active">
+<div class="top"><div><h1>เช็กสมาชิกประจำวัน</h1><p>ครบ / ไม่ครบ / ลา / ไม่เก็บ และบันทึกบทลงโทษอัตโนมัติ</p></div><div class="datebox">📅 <input id="date" type="date"></div></div>
+<div class="cards"><div class="card"><div class="k">สมาชิก</div><div class="v" id="c1">0</div></div><div class="card"><div class="k">เช็กแล้ว</div><div class="v" id="c2">0</div></div><div class="card"><div class="k">ครบ</div><div class="v" id="c3">0</div></div><div class="card"><div class="k">ลา</div><div class="v" id="c4">0</div></div><div class="card"><div class="k">ต้องติดตาม</div><div class="v" id="c5">0</div></div></div>
+<div class="grid">
+<div class="panel"><div class="head"><h2>รายชื่อ</h2><div class="tools"><input id="search" placeholder="ค้นหาชื่อ"><select id="filter"><option value="all">ทั้งหมด</option><option value="attention">ต้องติดตาม</option><option value="unchecked">ยังไม่เช็ก</option><option value="leave">ลา</option></select><button class="btn primary" id="save">บันทึกวันนี้</button></div></div><div class="table"><table><thead><tr><th>สมาชิก</th><th>เป้า</th><th>ยอด</th><th>สถานะ</th><th>ความผิด</th></tr></thead><tbody id="body"></tbody></table></div></div>
+<div class="panel"><div class="head"><h2>สรุปวันนี้</h2><button class="btn" id="copy">คัดลอก</button></div><div class="summary" id="summary"></div></div>
+</div>
+</section>
+
+<section id="members" class="page">
+<div class="top"><div><h1>สมาชิก</h1><p>เพิ่ม แก้ไข เปลี่ยนประเภท และดูประวัติรายคน</p></div><button class="btn primary" id="add">+ เพิ่มสมาชิก</button></div>
+<div class="panel"><div class="head"><h2>สมาชิกทั้งหมด</h2><div class="tools"><input id="msearch" placeholder="ค้นหาสมาชิก"><select id="mfilter"><option value="all">ทั้งหมด</option><option value="regular">สมาชิกปกติ</option><option value="new">สมาชิกใหม่</option><option value="inactive">Inactive</option></select></div></div><div class="members" id="mgrid"></div></div>
+</section>
+
+<section id="history" class="page">
+<div class="top"><div><h1>ประวัติการเช็ก</h1><p>ดูย้อนหลังตามวันที่หรือชื่อสมาชิก</p></div></div>
+<div class="panel"><div class="head"><h2>ประวัติ</h2><div class="tools"><input id="hsearch" placeholder="ค้นชื่อ"><input id="hdate" type="date"></div></div><div class="hist" id="hlist"></div></div>
+</section>
+
+<section id="discipline" class="page">
+<div class="top"><div><h1>ทัณฑ์บนและบทลงโทษ</h1><p>ครั้งที่ 1 ทัณฑ์บน / ครั้งที่ 2 ลดขั้น / ครั้งที่ 3 เอาออก</p></div></div>
+<div class="cards"><div class="card"><div class="k">มีประวัติ</div><div class="v" id="d1">0</div></div><div class="card"><div class="k">ทัณฑ์บน</div><div class="v" id="d2">0</div></div><div class="card"><div class="k">ลดขั้น</div><div class="v" id="d3">0</div></div><div class="card"><div class="k">เอาออก</div><div class="v" id="d4">0</div></div></div>
+<div class="panel"><div class="head"><h2>ประวัติทั้งหมด</h2><input id="dsearch" placeholder="ค้นชื่อ"></div><div class="hist" id="dlist"></div></div>
+</section>
+
+<section id="settings" class="page">
+<div class="top"><div><h1>ตั้งค่า</h1><p>กติกาและสำรองข้อมูล</p></div></div>
+<div class="panel"><div class="mb"><div class="fields"><div class="field"><label>สมาชิกปกติ</label><input id="sr" type="number"></div><div class="field"><label>สมาชิกใหม่</label><input id="sn" type="number"></div><div class="field"><label>ครั้งที่ 1</label><input id="s1"></div><div class="field"><label>ครั้งที่ 2</label><input id="s2"></div><div class="field"><label>ครั้งที่ 3</label><input id="s3"></div></div><div class="right"><button class="btn" id="export">Export JSON</button><label class="btn">Import JSON<input id="import" type="file" accept=".json" hidden></label><button class="btn primary" id="saveset">บันทึก</button></div></div></div>
+</section>
+</main>
+</div>
+
+<div class="modal" id="modal"><div class="box"><div class="head"><h2 id="mtitle">เพิ่มสมาชิก</h2><button class="btn" id="close">ปิด</button></div><div class="mb"><input type="hidden" id="mid"><div class="fields"><div class="field full"><label>ชื่อ</label><input id="mn"></div><div class="field"><label>ประเภท</label><select id="mt"><option value="regular">สมาชิกปกติ</option><option value="new">สมาชิกใหม่</option></select></div><div class="field"><label>เป้าหมาย</label><input id="mr" type="number"></div><div class="field"><label>Rank</label><input id="mrank"></div><div class="field"><label>สถานะ</label><select id="ma"><option value="1">Active</option><option value="0">Inactive</option></select></div></div><div class="right"><button class="btn primary" id="msave">บันทึก</button></div></div></div></div>
+<div class="modal" id="profile"><div class="box"><div class="head"><h2 id="ptitle">ประวัติ</h2><button class="btn" id="pclose">ปิด</button></div><div class="mb" id="pbody"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+var KEY="gang_manager_2026_v1";
+var oldNames=["Ja Kin","Thomas Ani","Mint Sct","Nanon Nanon","Model Model","Boss Sixnine","Beer Slow","Maysa April","Confirm Ok","Ku Bu","Pe Pe","Peter Davidson","Declan Rice","Ah Wang","Roronoa Zoro","Regency Soda","Akiko Ani","Iris Iris","Mr Palmy","Mark Ok","Jules Kaylan","Mr Midnice","Almond Diwa","Errik Maximillia","Zidan Ss","Helene Anderton","Pill Deksoy","Bat Isus","Owan Ssr","Nadia Nn","Justin Ghv","Arngoenj Singchai","Dom Mee","Lion King","Chi Code","Tne Mawin","George Sloth","Sanny Hobby","Lil Ghost","Adam Isus","Jimmy Elenio"];
+var newNames=["Dommi Bestovski","Dmon Jony","St Dees","Celine Rindaman"];
+function makeSeed(){
+ var members=[];var all=oldNames.concat(newNames);for(var i=0;i<all.length;i++)members.push({id:"m"+(i+1),name:all[i],type:newNames.indexOf(all[i])>=0?"new":"regular",required:newNames.indexOf(all[i])>=0?200:100,rank:"",active:true});
+ var by={};members.forEach(function(m){by[m.name]=m.id});
+ var rec=[],p={"Dommi Bestovski":234,"Mr Midnice":100,"Jules Kaylan":350,"Helene Anderton":250,"Model Model":200,"Akiko Ani":100,"Mark Ok":100,"Sanny Hobby":100,"Confirm Ok":100,"Iris Iris":100,"Nadia Nn":100,"Mr Palmy":99,"Thomas Ani":100,"Regency Soda":100,"Ja Kin":100,"Justin Ghv":100,"Maysa April":100,"Boss Sixnine":100,"Arngoenj Singchai":100,"Mint Sct":50,"Pe Pe":99,"Declan Rice":50,"Dmon Jony":117,"Almond Diwa":100,"Lion King":100,"Lil Ghost":100,"George Sloth":100,"Ah Wang":100,"Pill Deksoy":100,"Chi Code":50,"St Dees":0,"Celine Rindaman":0};
+ var leave=["Roronoa Zoro","Nanon Nanon","Zidan Ss","Peter Davidson","Ku Bu","Mint Sct","Tne Mawin"];
+ var zero=["Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Dom Mee","Adam Isus","Jimmy Elenio"];
+ Object.keys(p).forEach(function(n){var req=newNames.indexOf(n)>=0?200:100;var a=p[n],st=leave.indexOf(n)>=0?"leave":a===0?"zero":a>=req?"complete":"partial";rec.push({id:"r"+rec.length,date:"2026-10-25",memberId:by[n],status:st,amount:a,required:req,note:n==="Tne Mawin"?"LINE: Marvin":""})});
+ leave.forEach(function(n){if(p[n]===undefined)rec.push({id:"r"+rec.length,date:"2026-10-25",memberId:by[n],status:"leave",amount:0,required:100,note:n==="Tne Mawin"?"LINE: Marvin":""})});
+ zero.forEach(function(n){rec.push({id:"r"+rec.length,date:"2026-10-25",memberId:by[n],status:"zero",amount:0,required:100,note:""})});
+ var dis=[];["Model Model","Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Adam Isus"].forEach(function(n){dis.push({id:"d"+dis.length,memberId:by[n],member:n,date:"2026-10-24",offense:1,action:"ทัณฑ์บน 1 ใบ",reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา"})});
+ ["Beer Slow","Errik Maximillia","Bat Isus","Owan Ssr","Adam Isus"].forEach(function(n){dis.push({id:"d"+dis.length,memberId:by[n],member:n,date:"2026-10-25",offense:2,action:"ลดขั้น",reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา"})});
+ ["Dom Mee","Jimmy Elenio","St Dees","Celine Rindaman"].forEach(function(n){dis.push({id:"d"+dis.length,memberId:by[n],member:n,date:"2026-10-25",offense:1,action:"ทัณฑ์บน 1 ใบ",reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา"})});
+ return{members:members,records:rec,discipline:dis,settings:{regularRequired:100,newRequired:200,firstAction:"ทัณฑ์บน 1 ใบ",secondAction:"ลดขั้น",thirdAction:"เอาออกจากแก๊ง",snapshot:"2026-10-25",pendingUnnamedNewMember:1}};
+}
+function clone(x){return JSON.parse(JSON.stringify(x))}var db;try{db=JSON.parse(localStorage.getItem(KEY))||makeSeed()}catch(e){db=makeSeed()}function saveDB(){localStorage.setItem(KEY,JSON.stringify(db))}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function member(id){return db.members.find(function(m){return m.id===id})}function req(m){return Number(m.required|| (m.type==="new"?db.settings.newRequired:db.settings.regularRequired))}
+function off(id){var m=member(id);return db.discipline.filter(function(x){return x.memberId===id||(!x.memberId&&x.member===m.name)}).length}
+function action(n){return n>=3?db.settings.thirdAction:n===2?db.settings.secondAction:n===1?db.settings.firstAction:"ปกติ"}
+function lab(s){return{complete:"ครบ",partial:"ไม่ครบ",leave:"ลา",zero:"ไม่เก็บ"}[s]||"ยังไม่เช็ก"}function cls(s){return s==="complete"?"ok":s==="partial"?"part":s==="leave"?"leave":s==="zero"?"zero":""}
+function toast(t){var x=document.getElementById("toast");x.textContent=t;x.classList.add("show");setTimeout(function(){x.classList.remove("show")},1500)}
+function today(){var d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),da=String(d.getDate()).padStart(2,"0");return y+"-"+m+"-"+da}
+var draft={};var date=document.getElementById("date");date.value="2026-10-25";
+function loadDraft(){draft={};db.members.filter(function(m){return m.active}).forEach(function(m){var r=db.records.find(function(x){return x.memberId===m.id&&x.date===date.value});draft[m.id]=r?{status:r.status,amount:r.amount,required:r.required}:{status:"",amount:"",required:req(m)}})}
+function stat(d){if(d.status==="leave")return"leave";if(d.status==="zero")return"zero";if(d.status==="complete")return"complete";if(d.status==="partial")return"partial";if(d.amount==="")return"";var a=Number(d.amount||0);return a===0?"zero":a>=Number(d.required)?"complete":"partial"}
+function renderDaily(){var q=document.getElementById("search").value.toLowerCase(),f=document.getElementById("filter").value,b=document.getElementById("body");b.innerHTML="";var c=0,ok=0,l=0,att=0,active=db.members.filter(function(m){return m.active});
+ active.forEach(function(m){var d=draft[m.id],s=stat(d);if(s)c++;if(s==="complete")ok++;if(s==="leave")l++;if(s==="partial"||s==="zero")att++;var show=m.name.toLowerCase().includes(q);if(f==="attention")show=show&&(s==="partial"||s==="zero");if(f==="unchecked")show=show&&!s;if(f==="leave")show=show&&s==="leave";if(!show)return;var tr=document.createElement("tr");tr.innerHTML="<td><div class='name'>"+esc(m.name)+"</div><div class='sub'>"+(m.type==="new"?"สมาชิกใหม่":"สมาชิกปกติ")+"</div></td><td>"+d.required+"</td><td><input type='number' min='0' style='width:85px' data-a='"+m.id+"' value='"+d.amount+"'></td><td><div class='sbtns'>"+["complete","partial","leave","zero"].map(function(x){return"<button class='"+(s===x?"on ":"")+cls(x)+"' data-id='"+m.id+"' data-s='"+x+"'>"+lab(x)+"</button>"}).join("")+"</div></td><td><button class='btn' data-pro='"+m.id+"'>"+off(m.id)+" ครั้ง · "+esc(action(off(m.id)))+"</button></td>";b.appendChild(tr)});
+ document.getElementById("c1").textContent=active.length;document.getElementById("c2").textContent=c;document.getElementById("c3").textContent=ok;document.getElementById("c4").textContent=l;document.getElementById("c5").textContent=att;
+ b.querySelectorAll("[data-a]").forEach(function(i){i.onchange=function(){var d=draft[i.dataset.a];d.amount=i.value;d.status=i.value===""?"":Number(i.value)===0?"zero":Number(i.value)>=Number(d.required)?"complete":"partial";renderDaily()}});
+ b.querySelectorAll("[data-s]").forEach(function(x){x.onclick=function(){var d=draft[x.dataset.id];d.status=x.dataset.s;if(d.status==="zero")d.amount=0;if(d.status==="complete"&&(d.amount===""||Number(d.amount)<Number(d.required)))d.amount=d.required;renderDaily()}});
+ b.querySelectorAll("[data-pro]").forEach(function(x){x.onclick=function(){profile(x.dataset.pro)}});summary()}
+function summary(){var z=[],p=[],l=[],u=[];db.members.filter(function(m){return m.active}).forEach(function(m){var d=draft[m.id],s=stat(d);var o={m:m,d:d};if(s==="zero")z.push(o);else if(s==="partial")p.push(o);else if(s==="leave")l.push(o);else if(!s)u.push(o)});
+ function g(t,a,c){return"<div class='group'><h3>"+t+" ("+a.length+")</h3>"+(a.length?a.map(function(x){return"<div class='row'><span>"+esc(x.m.name)+"</span><span class='pill "+c+"'>"+(x.d.amount===""?lab(stat(x.d)):x.d.amount+"/"+x.d.required)+"</span></div>"}).join(""):"<div class='sub'>ไม่มี</div>")+"</div>"}
+ document.getElementById("summary").innerHTML=g("ไม่เก็บเลย",z,"zero")+g("เก็บไม่ครบ",p,"part")+g("แจ้งลา",l,"leave")+g("ยังไม่เช็ก",u,"")}
+function sumText(){var z=[],p=[],l=[];db.members.filter(function(m){return m.active}).forEach(function(m){var d=draft[m.id],s=stat(d);if(s==="zero")z.push(m.name);if(s==="partial")p.push(m.name+" — "+d.amount+"/"+d.required);if(s==="leave")l.push(m.name)});return["สรุป "+date.value,"","ไม่เก็บเลย:",z.length?z.join("\n"):"ไม่มี","","เก็บไม่ครบ:",p.length?p.join("\n"):"ไม่มี","","แจ้งลา:",l.length?l.join("\n"):"ไม่มี"].join("\n")}
+document.getElementById("copy").onclick=function(){navigator.clipboard.writeText(sumText()).then(function(){toast("คัดลอกแล้ว")})};
+document.getElementById("save").onclick=function(){var dt=date.value;db.members.filter(function(m){return m.active}).forEach(function(m){var d=draft[m.id],s=stat(d),ix=db.records.findIndex(function(r){return r.memberId===m.id&&r.date===dt});if(!s){if(ix>=0)db.records.splice(ix,1);return}var r={id:ix>=0?db.records[ix].id:"r"+Date.now()+m.id,date:dt,memberId:m.id,status:s,amount:Number(d.amount||0),required:Number(d.required),note:""};if(ix>=0)db.records[ix]=r;else db.records.push(r);
+ var auto=db.discipline.find(function(x){return x.memberId===m.id&&x.date===dt&&x.auto});if(s==="zero"&&!auto){var n=off(m.id)+1;db.discipline.push({id:"d"+Date.now()+m.id,memberId:m.id,member:m.name,date:dt,offense:n,action:action(n),reason:"ไม่เก็บอัญมณีและไม่ได้แจ้งลา",auto:true});if(n>=3)m.active=false}else if(s!=="zero"&&auto){db.discipline=db.discipline.filter(function(x){return x!==auto})}});
+ saveDB();loadDraft();renderDaily();toast("บันทึกแล้ว")};
+document.getElementById("search").oninput=renderDaily;document.getElementById("filter").onchange=renderDaily;date.onchange=function(){loadDraft();renderDaily()};
+
+function renderMembers(){var q=document.getElementById("msearch").value.toLowerCase(),f=document.getElementById("mfilter").value,g=document.getElementById("mgrid");g.innerHTML="";db.members.filter(function(m){return m.name.toLowerCase().includes(q)}).filter(function(m){return f==="all"?true:f==="inactive"?!m.active:m.active&&m.type===f}).forEach(function(m){var d=document.createElement("div");d.className="mcard";d.innerHTML="<h3>"+esc(m.name)+"</h3><div class='sub'>"+(m.active?"Active":"Inactive")+" · "+(m.type==="new"?"สมาชิกใหม่":"สมาชิกปกติ")+" · เป้า "+req(m)+"</div><div class='right'><button class='btn' data-p='"+m.id+"'>ประวัติ</button><button class='btn' data-e='"+m.id+"'>แก้ไข</button></div>";g.appendChild(d)});g.querySelectorAll("[data-p]").forEach(function(x){x.onclick=function(){profile(x.dataset.p)}});g.querySelectorAll("[data-e]").forEach(function(x){x.onclick=function(){openMember(x.dataset.e)}})}
+function openMember(id){var m=id?member(id):null;document.getElementById("mid").value=m?m.id:"";document.getElementById("mn").value=m?m.name:"";document.getElementById("mt").value=m?m.type:"regular";document.getElementById("mr").value=m?req(m):db.settings.regularRequired;document.getElementById("mrank").value=m?m.rank||"":"";document.getElementById("ma").value=m&&m.active===false?"0":"1";document.getElementById("mtitle").textContent=m?"แก้ไขสมาชิก":"เพิ่มสมาชิก";document.getElementById("modal").classList.add("open")}
+document.getElementById("add").onclick=function(){openMember()};document.getElementById("close").onclick=function(){document.getElementById("modal").classList.remove("open")};document.getElementById("mt").onchange=function(){document.getElementById("mr").value=this.value==="new"?db.settings.newRequired:db.settings.regularRequired};
+document.getElementById("msave").onclick=function(){var id=document.getElementById("mid").value,n=document.getElementById("mn").value.trim();if(!n)return toast("ใส่ชื่อก่อน");var o={id:id||"m"+Date.now(),name:n,type:document.getElementById("mt").value,required:Number(document.getElementById("mr").value||0),rank:document.getElementById("mrank").value.trim(),active:document.getElementById("ma").value==="1"};var ix=db.members.findIndex(function(m){return m.id===id});if(ix>=0)db.members[ix]=o;else db.members.push(o);saveDB();document.getElementById("modal").classList.remove("open");loadDraft();renderMembers();toast("บันทึกสมาชิกแล้ว")};
+document.getElementById("msearch").oninput=renderMembers;document.getElementById("mfilter").onchange=renderMembers;
+
+function profile(id){var m=member(id),r=db.records.filter(function(x){return x.memberId===id}).sort(function(a,b){return b.date.localeCompare(a.date)}),d=db.discipline.filter(function(x){return x.memberId===id}).sort(function(a,b){return b.date.localeCompare(a.date)});document.getElementById("ptitle").textContent=m.name;document.getElementById("pbody").innerHTML="<div class='cards' style='grid-template-columns:repeat(3,1fr)'><div class='card'><div class='k'>เป้า</div><div class='v'>"+req(m)+"</div></div><div class='card'><div class='k'>ความผิด</div><div class='v'>"+off(id)+"</div></div><div class='card'><div class='k'>สถานะ</div><div class='v' style='font-size:16px'>"+esc(action(off(id)))+"</div></div></div><h3>บทลงโทษ</h3>"+(d.length?d.map(function(x){return"<div class='event'><div class='d'>"+x.date+"</div><div><b>ครั้งที่ "+x.offense+" · "+esc(x.action)+"</b><div class='sub'>"+esc(x.reason)+"</div></div></div>"}).join(""):"<div class='empty'>ไม่มี</div>")+"<h3>การเช็กย้อนหลัง</h3>"+(r.length?r.map(function(x){return"<div class='event'><div class='d'>"+x.date+"</div><div><b>"+lab(x.status)+"</b><div class='sub'>"+x.amount+"/"+x.required+"</div></div><span class='pill "+cls(x.status)+"'>"+lab(x.status)+"</span></div>"}).join(""):"<div class='empty'>ไม่มี</div>");document.getElementById("profile").classList.add("open")}
+document.getElementById("pclose").onclick=function(){document.getElementById("profile").classList.remove("open")};
+
+function renderHistory(){var q=document.getElementById("hsearch").value.toLowerCase(),dt=document.getElementById("hdate").value,a=db.records.map(function(r){return{r:r,m:member(r.memberId)}}).filter(function(x){return x.m&&x.m.name.toLowerCase().includes(q)&&(!dt||x.r.date===dt)}).sort(function(a,b){return b.r.date.localeCompare(a.r.date)});document.getElementById("hlist").innerHTML=a.length?a.map(function(x){return"<div class='event'><div class='d'>"+x.r.date+"</div><div><b>"+esc(x.m.name)+"</b><div class='sub'>"+x.r.amount+"/"+x.r.required+"</div></div><span class='pill "+cls(x.r.status)+"'>"+lab(x.r.status)+"</span></div>"}).join(""):"<div class='empty'>ไม่มีข้อมูล</div>"}
+document.getElementById("hsearch").oninput=renderHistory;document.getElementById("hdate").onchange=renderHistory;
+
+function renderDis(){var q=document.getElementById("dsearch").value.toLowerCase(),cnt={};db.members.forEach(function(m){cnt[m.id]=off(m.id)});var vals=Object.values(cnt);document.getElementById("d1").textContent=vals.filter(function(n){return n>0}).length;document.getElementById("d2").textContent=vals.filter(function(n){return n===1}).length;document.getElementById("d3").textContent=vals.filter(function(n){return n===2}).length;document.getElementById("d4").textContent=vals.filter(function(n){return n>=3}).length;var a=db.discipline.filter(function(x){return (member(x.memberId)?member(x.memberId).name:x.member).toLowerCase().includes(q)}).sort(function(a,b){return b.date.localeCompare(a.date)});document.getElementById("dlist").innerHTML=a.length?a.map(function(x){var n=member(x.memberId)?member(x.memberId).name:x.member;return"<div class='event'><div class='d'>"+x.date+"</div><div><b>"+esc(n)+" · ครั้งที่ "+x.offense+"</b><div class='sub'>"+esc(x.reason)+"</div></div><span class='pill "+(x.offense>=3?"zero":x.offense===2?"part":"leave")+"'>"+esc(x.action)+"</span></div>"}).join(""):"<div class='empty'>ไม่มีประวัติ</div>"}
+document.getElementById("dsearch").oninput=renderDis;
+
+function settings(){document.getElementById("sr").value=db.settings.regularRequired;document.getElementById("sn").value=db.settings.newRequired;document.getElementById("s1").value=db.settings.firstAction;document.getElementById("s2").value=db.settings.secondAction;document.getElementById("s3").value=db.settings.thirdAction}
+document.getElementById("saveset").onclick=function(){db.settings.regularRequired=Number(document.getElementById("sr").value||100);db.settings.newRequired=Number(document.getElementById("sn").value||200);db.settings.firstAction=document.getElementById("s1").value;db.settings.secondAction=document.getElementById("s2").value;db.settings.thirdAction=document.getElementById("s3").value;saveDB();toast("บันทึกตั้งค่าแล้ว")};
+function download(name,txt){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"application/json"}));a.download=name;a.click()}
+document.getElementById("export").onclick=function(){download("gang-manager-backup.json",JSON.stringify(db,null,2))};
+document.getElementById("import").onchange=function(e){var f=e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{db=JSON.parse(rd.result);saveDB();loadDraft();renderDaily();toast("Import สำเร็จ")}catch(x){toast("ไฟล์ไม่ถูกต้อง")}};rd.readAsText(f)};
+
+document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){document.querySelectorAll("nav button").forEach(function(x){x.classList.toggle("active",x===b)});document.querySelectorAll(".page").forEach(function(x){x.classList.toggle("active",x.id===b.dataset.p)});if(b.dataset.p==="members")renderMembers();if(b.dataset.p==="history")renderHistory();if(b.dataset.p==="discipline")renderDis();if(b.dataset.p==="settings")settings()}});
+loadDraft();renderDaily();if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
+</script>
+</body>
+</html>
