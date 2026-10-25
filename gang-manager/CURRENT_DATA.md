@@ -57,3 +57,6 @@ LINE leave name "Marvin" is intentionally NOT mapped to a game member because th
 - Jimmy Elenio
 - St Dees
 - Celine Rindaman
+
+## Name change
+- Akiko Ani → Japan Japan (same member; keep all previous history)
