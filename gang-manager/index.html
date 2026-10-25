@@ -250,7 +250,7 @@ input:focus,select:focus{border-color:#6175ff}
 
 <script>
 var KEY="gang_manager_2026_v1";
-var oldNames=["Ja Kin","Thomas Ani","Mint Sct","Nanon Nanon","Model Model","Boss Sixnine","Beer Slow","Maysa April","Confirm Ok","Ku Bu","Pe Pe","Peter Davidson","Declan Rice","Ah Wang","Roronoa Zoro","Regency Soda","Akiko Ani","Iris Iris","Mr Palmy","Mark Ok","Jules Kaylan","Mr Midnice","Almond Diwa","Errik Maximillia","Zidan Ss","Helene Anderton","Pill Deksoy","Bat Isus","Owan Ssr","Nadia Nn","Justin Ghv","Arngoenj Singchai","Dom Mee","Lion King","Chi Code","Tne Mawin","George Sloth","Sanny Hobby","Lil Ghost","Adam Isus","Jimmy Elenio"];
+var oldNames=["Ja Kin","Thomas Ani","Mint Sct","Nanon Nanon","Model Model","Boss Sixnine","Beer Slow","Maysa April","Confirm Ok","Ku Bu","Pe Pe","Peter Davidson","Declan Rice","Ah Wang","Roronoa Zoro","Regency Soda","Japan Japan","Iris Iris","Mr Palmy","Mark Ok","Jules Kaylan","Mr Midnice","Almond Diwa","Errik Maximillia","Zidan Ss","Helene Anderton","Pill Deksoy","Bat Isus","Owan Ssr","Nadia Nn","Justin Ghv","Arngoenj Singchai","Dom Mee","Lion King","Chi Code","Tne Mawin","George Sloth","Sanny Hobby","Lil Ghost","Adam Isus","Jimmy Elenio"];
 var newNames=["Dommi Bestovski","Dmon Jony","St Dees","Celine Rindaman"];
 
 function makeSeed(){
@@ -306,6 +306,14 @@ function makeSeed(){
 
 var db;
 try{db=JSON.parse(localStorage.getItem(KEY))||makeSeed()}catch(e){db=makeSeed()}
+var legacyAkiko=db.members&&db.members.find(function(m){return m.name==="Akiko Ani"});
+var existingJapan=db.members&&db.members.find(function(m){return m.name==="Japan Japan"});
+if(legacyAkiko&&!existingJapan){
+  legacyAkiko.name="Japan Japan";
+  db.discipline.forEach(function(x){if(x.member==="Akiko Ani")x.member="Japan Japan"});
+  localStorage.setItem(KEY,JSON.stringify(db));
+}
+
 
 function persist(){localStorage.setItem(KEY,JSON.stringify(db))}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
